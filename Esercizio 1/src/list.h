@@ -1,21 +1,14 @@
 #ifndef LIST_H
 #define LIST_H
 
-typedef struct {
-	struct node *next;
-	void *data;
-}node;
+typedef struct _Node Node;
+typedef struct _List List;
 
-typedef struct {
-	node *head;
-	node *tail;
-}list;
-
-void dispose_list(list*);
-list *create_list();
-void add_node(list*, node*);
-node *new_node(void*, int);
-void print_list(list *, void print_node(node*));
+void dispose_list(List*);
+List *create_list(int (*compare_data)(void*, void*));
+void add_node(List*, Node*);
+Node *new_node(void*);
+void print_list(List *, void (print_node)(Node*));
 
 
 #endif

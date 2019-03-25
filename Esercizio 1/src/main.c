@@ -1,11 +1,6 @@
 #include "list.h"
 #include <stdio.h>
 
-struct my_datatype {
-        int id1;
-        char id2;
-};
-
 void print_integer(node *to_print) {
         printf("%d", *((int*)to_print->data));
 }
