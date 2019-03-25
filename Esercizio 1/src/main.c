@@ -1,27 +1,18 @@
 #include "list.h"
 #include <stdio.h>
 
-void print_integer(node *to_print) {
-        printf("%d", *((int*)to_print->data));
-}
-
-void print_struct(node *to_print) {
-        printf("\nid1: %d, id2: %c", (((struct my_datatype*)to_print->data)->id1), (((struct my_datatype*)to_print->data)->id2));
+void print_integer(Node *to_print) {
+        printf("%d", *((int*) to_print->data ));
 }
 
 int main(){
-        int n = 5;
-        list *new_list = create_list();
+        List *new_list = List_create();
 
         for(int i = 0; i < 22; i++) {
-                struct my_datatype to_add;
-                to_add.id1 = i;
-                to_add.id2 = i + 97;
-
-                add_node(new_list, new_node(&to_add, sizeof(to_add)));
+                List_add_node(new_list, List_new_node(&i));
         }
 
-        print_list(new_list, print_struct);
+        List_print(new_list, print_integer);
 
-        dispose_list(new_list);
+        List_dispose(new_list);
 }
