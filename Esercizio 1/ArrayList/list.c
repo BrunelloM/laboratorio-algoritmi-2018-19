@@ -15,6 +15,7 @@ struct _List {
 
 struct _Iterator {
         int index;
+        List *list;
 };
 
 void List_right_shift(List *, int);
@@ -146,21 +147,33 @@ Iterator *List_get_iterator(List *list) {
                 throw_error("invalid parameter: list parameter cannot be NULL");
         Iterator *iterator = (Iterator*) malloc(sizeof(Iterator));
         iterator->index = 0;
+        iterator->list = list;
         return iterator;
 }
 
 void Iterator_get_next(Iterator *iterator) {
-
+        if(iterator == NULL)
+                throw_error("invalid parameter: iterator parameter cannot be NULL");
+        iterator->index += 1;
 }
 
 int Iterator_is_valid(Iterator *iterator) {
-
+        if(iterator == NULL)
+                throw_error("invalid parameter: iterator parameter cannot be NULL");
+        return (iterator->index < iterator->list->element_count);
 }
 
 void *Iterator_get_element(Iterator *iterator) {
         if(iterator == NULL)
                 throw_error("invalid parameter: iterator parameter cannot be NULL");
         if(Iterator_is_valid(iterator))
-                throw_error("the current iterator is invalid");
+                throw_error("current iterator is invalid");
 
+        return iterator->list->array_list[iterator->index];
+}
+
+void Iterator_dispose(Iterator *iterator) {
+        if(iterator == NULL)
+                throw_error("invalid parameter: iterator parameter cannot be NULL");
+        free(iterator);
 }

@@ -77,9 +77,16 @@ int Iterator_is_valid(Iterator *);
 void *Iterator_get_element(Iterator *);
 
 /*
+** cancella l'iteratore passato come parametro
+*/
+void Iterator_dispose(Iterator *iterator)
+
+/*
 ** Stampa la lista
 */
 void List_print(List *, void (print_node)(void*));
+
+
 
 /*
 ** mergesort di due liste
