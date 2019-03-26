@@ -69,7 +69,6 @@ void List_add_i(List *current_list, Node *node, int index) {
                 throw_error("invalid index: index argument is invalid");
 
         Node *iterator = current_list->head;
-        int count = 0;
 
         if(index == 0) {                                 // the new node becomes the new head
                 current_list->head->prec = node;

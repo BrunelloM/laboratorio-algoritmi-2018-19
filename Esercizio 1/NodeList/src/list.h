@@ -91,4 +91,11 @@ void List_print(List *, void (print_node)(void*));
 */
 Node *List_new_node(void *);
 
+/*
+** mergesort di due liste
+** criterio e' il criterio di ordinamento
+*/
+//List *List_merge(List*, List*, int (criterio)(void*, void*);
+
+
 #endif
