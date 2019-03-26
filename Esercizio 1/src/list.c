@@ -16,6 +16,10 @@ struct _List {
         int current_size;
 };
 
+struct _Iterator {
+        Node *current_position;
+};
+
 List *List_create() {
         List *ret_list = (List*) malloc(sizeof(List));
 	if(ret_list == NULL)
@@ -38,7 +42,7 @@ void List_dispose(List *current_list) {
         free(current_list);
 }
 
-void List_add_node(List *current_list, Node *node) {
+void List_add_tail(List *current_list, Node *node) {
         if(current_list == NULL)
                 throw_error("current_list parameter cannot be NULL");
 
@@ -56,15 +60,33 @@ void List_add_node(List *current_list, Node *node) {
         current_list->current_size += 1;
 }
 
-/**
-node *new_node(void *data, int data_type_size) {
-        node *ret_node = (node*) malloc(sizeof(node));
-        ret_node->data = malloc(data_type_size);
-        memcpy(ret_node->data, data, data_type_size);
-        ret_node->next = NULL;
-        return ret_node;
+void List_add_i(List *current_list, Node *node, int index) {
+        if(node == NULL)
+                throw_error("node parameter cannot be NULL");
+        if(current_list == NULL)
+                throw_error("current_list parameter cannot be NULL");
+        if(index >= current_list->current_size || index < 0)
+                throw_error("invalid index: index argument is invalid");
 
-**/
+        Node *iterator = current_list->head;
+        int count = 0;
+
+        if(index == 0) {                                 // the new node becomes the new head
+                current_list->head->prec = node;
+                node->next = current_list->head;
+                current_list->head = node;
+        } else if(index == current_list->current_size - 1) { // the new node becomes the new tail of the list
+                List_add_tail(current_list, node);
+        } else {                                         // search the position in which the node will be placed
+                for(int i = 0; i < index - 1; i++)
+                        iterator = iterator->next;
+
+                node->next = iterator->next;
+                node->prec = iterator;
+                iterator->next->prec = node;
+                iterator->next = node;
+        }
+}
 
 Node *List_new_node(void *data) {
 	if(data == NULL)
@@ -85,16 +107,93 @@ int List_is_empty(List *current_list) {
         return current_list->current_size == 0;
 }
 
-void List_print(List *current_list, void (*print_node)(Node*)) {
+void List_print(List *current_list, void (*print_node)(void*)) {
         Node *iterator = current_list->head;
         while(iterator != NULL) {
-                print_node(iterator);
+                print_node(iterator->data);
                 iterator = (Node*) iterator->next;
         }
 }
 
+void List_remove_tail(List *current_list) {
+        if(current_list == NULL)
+                throw_error("current_list parameter cannot be NULL");
+        current_list->tail->prec->next = NULL;
+        free(current_list->tail);
+}
+
+void List_remove_i(List *current_list, int index) {
+        if(current_list == NULL)
+                throw_error("current_list parameter cannot be NULL");
+        if(index >= current_list->current_size || index < 0)
+                throw_error("invalid index: index argument is invalid");
+
+        Node *iterator = current_list->head;
+
+        if(index == 0) {
+                iterator = iterator->next;
+                iterator->prec = NULL;
+                free(current_list->head);
+                current_list->head = iterator;
+        } else if(index == current_list->current_size - 1) {
+                List_remove_tail(current_list);
+        } else {
+                for(int i = 0; i < index - 1; i++)
+                        iterator = iterator->next;
+
+                iterator->next->prec = iterator->prec;
+                iterator->prec->next = iterator->next;
+                free(iterator);
+        }
+}
+
+Node *List_get_node(List* current_list, int index) {
+        if(current_list == NULL)
+                throw_error("current_list parameter cannot be NULL");
+        if(index >= current_list->current_size || index < 0)
+                throw_error("invalid index: index argument is invalid");
+
+        Node *iterator = current_list->head;
+        for(int i = 0; i < index - 1; i++)
+                iterator = iterator->next;
+
+        return iterator;
+}
+
 int List_size(List *current_list) {
+        if(current_list == NULL)
+                throw_error("current_list parameter cannot be NULL");
         return current_list->current_size;
+}
+
+Iterator *List_get_iterator(List *current_list) {
+        if(current_list == NULL)
+                throw_error("current_list parameter cannot be NULL");
+        Iterator *new_iterator = (Iterator*) malloc(sizeof(Iterator));
+        new_iterator->current_position = current_list->head;
+        return new_iterator;
+}
+
+void Iterator_get_next(Iterator *iterator) {
+        if(iterator == NULL)
+                throw_error("iterator parameter cannot be NULL");
+        iterator->current_position = iterator->current_position->next;
+}
+
+int Iterator_is_valid(Iterator *iterator) {
+        if(iterator == NULL)
+                throw_error("iterator parameter cannot be NULL");
+
+        return iterator->current_position != NULL;
+}
+
+Node *Iterator_get_element(Iterator *iterator) {
+        if(iterator == NULL)
+                throw_error("iterator parameter cannot be NULL");
+        if(!Iterator_is_valid(iterator))
+                throw_error("current iterator is invalid");
+
+        return iterator->current_position;
 }
 
 void throw_error(char *string) {
