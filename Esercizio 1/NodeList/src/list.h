@@ -2,12 +2,7 @@
 #define LIST_H
 
 /*
-** Nodo
-*/
-typedef struct _Node Node;
-
-/*
-** lista
+** Lista
 */
 typedef struct _List List;
 
@@ -17,85 +12,87 @@ typedef struct _List List;
 typedef struct _Iterator Iterator;
 
 /*
-** Crea nuova lista
+** Crea nuova Lista
 */
-List *List_create();
+List *list_create();
 
 /*
-** Dealloca la lista
+** Dealloca la Lista
 */
-void List_dispose(List *);
+void list_dispose(List *);
 
 /*
 ** Inserimento in coda
 */
-void List_add_tail(List *, Node*);
+void list_add_tail(List *, void *);
 
 /*
 ** Inserimento in una specifica posizione
 */
-void List_add_i(List *, Node*, int);
+void list_add_i(List *, void *, int);
 
 /*
-** Verifica se la lista e' vuota
+** Verifica se la Lista e' vuota
 */
-int List_is_empty(List *);
+int list_is_empty(List *);
 
 /*
-** Ritorna il numero degli elementi presenti nella lista
+** Ritorna il numero degli elementi presenti nella Lista
 */
-int List_size(List *);
+int list_size(List *);
 
 /*
-** Cancella l'elemento in coda alla lista
+** Cancella l'elemento in coda alla Lista
 */
-void List_remove_tail(List *);
+void list_remove_tail(List *);
 
 /*
 ** Cancella l'elemento alla posizione i
 */
-void List_remove_i(List *, int);
+void list_remove_i(List *, int);
 
 /*
-** Ritorna l-elemento alla posizione i
+** Ritorna l'elemento alla posizione i
 */
-Node *List_get_node(List *, int);
+void *list_get_i(List *, int);
 
 /*
-** ritorna un nuovo iteratore per la lista
+** ritorna un nuovo iteratore per la Lista
 */
-Iterator *List_get_iterator(List *);
+Iterator *list_get_iterator(List *);
 
 /*
 ** sposta l-iteratore alla prossima posizione
 */
-void Iterator_get_next(Iterator *);
+void iterator_get_next(Iterator *);
 
 /*
 ** ritorna 0 se invalido, >0 altrimenti
 */
-int Iterator_is_valid(Iterator *);
+int iterator_is_valid(Iterator *);
 
 /*
 ** ritorna l'elemento puntato dall'iterator
 */
-Node *Iterator_get_element(Iterator *);
+void *iterator_get_element(Iterator *);
 
 /*
-** Stampa la lista
+** cancella l'iteratore passato come parametro
 */
-void List_print(List *, void (print_node)(void*));
+void iterator_dispose(Iterator *);
 
 /*
-** crea un nuovo nodo
+** Stampa la Lista
 */
-Node *List_new_node(void *);
+void list_print(List *, void (print_node)(void*));
+
+
 
 /*
-** mergesort di due liste
+** mergesort di due Liste
 ** criterio e' il criterio di ordinamento
 */
-//List *List_merge(List*, List*, int (criterio)(void*, void*);
+//List *List_merge(List*, List*, int (criterio)(void*, void*));
 
 
 #endif
