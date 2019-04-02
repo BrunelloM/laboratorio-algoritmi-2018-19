@@ -107,9 +107,9 @@ void list_resize(List *list, int new_size) {
                 throw_error("realloc error: not enough memory to reallocate array_list");
 }
 
-void list_print(List *list, void (print_node)(void*)) {
+void list_print(List *list, void (print_element)(void*)) {
         for(int i = 0; i < list->element_count; i++) {
-                print_node(list->array_list[i]);
+                print_element(list->array_list[i]);
         }
 }
 
@@ -128,7 +128,7 @@ int list_size(List *list) {
 void list_remove_tail(List *list) {
         if(list == NULL)
                 throw_error("invalid parameter: list parameter cannot be NULL");
-        //(list->array_list[list->tail_index]);
+
         list->tail_index--;
         list->element_count--;
 
@@ -143,7 +143,6 @@ void list_remove_i(List *list, int index) {
         if(index < 0 || index > list->element_count)
                 throw_error("invalid parameter: invalid index value");
 
-        //free(list->array_list[index]);
         list_left_shift(list, index);
         list->element_count -= 1;
 }
