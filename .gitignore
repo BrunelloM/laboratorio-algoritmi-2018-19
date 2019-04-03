@@ -1,2 +1,3 @@
 datasets
 *.o
+bin/
