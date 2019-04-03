@@ -97,7 +97,7 @@ int iterator_is_valid(Iterator *);
 /*
 ** Get the current element pointed by the iterator
 ** @param Iterator *: The pointer of the iterator where you want to retrieve the value. Cannot be NULL or invalid.
-** @return: (void*) The pointer of the current element pointed by the iterator.
+** @return: (void*) The pointer of the current element pointed by the iterator. NULL if the iterator is invalid
 */
 void *iterator_get_element(Iterator *);
 

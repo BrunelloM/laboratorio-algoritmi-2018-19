@@ -1,5 +1,4 @@
 #include "list.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -102,7 +101,7 @@ void list_left_shift(List *list, int from) {
 
 void list_resize(List *list, int new_size) {
         list->array_size = new_size;
-        list->array_list = (void**) realloc(list->array_list, sizeof(void*) * list->array_size);
+        list->array_list = (void**) realloc(list->array_list, sizeof(void*) * (unsigned int) list->array_size);
         if(list->array_list == NULL)
                 throw_error("realloc error: not enough memory to reallocate array_list");
 }
@@ -180,7 +179,7 @@ int iterator_is_valid(Iterator *iterator) {
 void *iterator_get_element(Iterator *iterator) {
         if(iterator == NULL)
                 throw_error("invalid parameter: iterator parameter cannot be NULL");
-        if(iterator_is_valid(iterator))
+        if(!iterator_is_valid(iterator))
                 return NULL;
 
         return iterator->list->array_list[iterator->index];

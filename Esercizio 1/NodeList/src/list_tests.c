@@ -65,7 +65,6 @@ void test_list_remove_tail(void) {
         list_add_tail(array_list_int, &i3);
         list_remove_tail(array_list_int);
         int **act_arr = malloc(2 * sizeof(int));
-        // TODO: Errato (non viene considerata la coda in ogni caso)
         for(int i = 0; i < 2; i++)
                 act_arr[i] = (int*) list_get_i(array_list_int, i);
 

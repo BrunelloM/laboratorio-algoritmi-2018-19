@@ -1,6 +1,4 @@
-
-
-all: bin/list
+all: bin/list_node bin/list_node_tests
 
 CFLAGS = -g -Wall -Wextra -Wpedantic -Wconversion
 
@@ -8,11 +6,14 @@ INCLUDES = src/*.h
 
 COMMON_DEPS = $(INCLUDES) Makefile
 
-build/%.o: src/%.c $(COMMON_DEPS)
+obj/%.o: src/%.c $(COMMON_DEPS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-bin/list: build/list.o build/main.o $(COMMON_DEPS)
-	$(CC) -o bin/list build/list.o build/main.o
+bin/list_node: obj/list.o obj/main.o $(COMMON_DEPS)
+	$(CC) -o bin/list_node obj/list.o obj/main.o
+
+bin/list_node_tests: obj/list_tests.o obj/list.o obj/unity.o $(COMMON_DEPS)
+	$(CC) -o bin/list_node_tests  obj/list_tests.o obj/list.o obj/unity.o
 
 clean:
-	rm -f build/* bin/*
+	rm -f obj/* bin/*
