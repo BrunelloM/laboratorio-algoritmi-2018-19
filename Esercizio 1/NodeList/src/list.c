@@ -7,6 +7,7 @@ typedef struct _Node Node;
 struct _Node {
         void *data;
         Node *next;
+        Node *prev;
 };
 
 struct _List {
@@ -19,7 +20,7 @@ struct _Iterator {
         Node *current_node;
 };
 
-Node *Node_new(void *, Node *);
+Node *node_new(void *, Node *, Node *);
 
 void throw_error(char *string) {
 	fprintf(stderr, "%s", string);
@@ -58,12 +59,11 @@ void list_add_tail(List *list, void *element) {
         if(element == NULL)
                 throw_error("invalid parameter: element parameter cannot be NULL");
 
-        Node *new_element = Node_new(element, NULL);
         if(list->tail == NULL) {
-                list->tail = list->head = new_element;
+                list->tail = list->head = node_new(element, NULL, NULL);;
         } else {
-                list->tail->next = new_element;
-                list->tail = new_element;
+                list->tail->next = node_new(element, NULL, list->tail);
+                list->tail = list->tail->next;
         }
 
         list->element_count += 1;
@@ -74,19 +74,25 @@ void list_add_i(List *list, void *element, int index) {
                 throw_error("invalid parameter: list parameter cannot be NULL");
         if(element == NULL)
                 throw_error("invalid parameter: element parameter cannot be NULL");
-        if(index < 0 || index >= list->element_count)
+        if(index < 0 || index > list->element_count)
                 throw_error("invalid parameter: invalid index value");
 
-        if(index == 0) {
-                list->head = Node_new(element, NULL);
-                list->tail = list->head;
+        if(index == 0) {                // head insertion
+                list->head = node_new(element, list->head, NULL);
         } else {
-                Node *iterator = list->head;
-                while(index) {
-                        iterator = iterator->next;
+                Node *cursor = list->head;
+                Node *new_node;
+                while(index - 1) {          // Move the iterator to the corect position
+                        cursor = cursor->next;
                         index--;
                 }
-                iterator->next = Node_new(element, iterator->next);
+
+                new_node = node_new(element, cursor->next, cursor);     // Allocate the new node
+                if(cursor->next != NULL)                                // non-tail case
+                         cursor->next->prev = new_node;
+                else                                                    // Tial case
+                         cursor->next = new_node;
+
         }
         list->element_count += 1;
 }
@@ -167,7 +173,7 @@ void iterator_dispose(Iterator *iterator) {
         free(iterator);
 }
 
-Node *Node_new(void* data, Node* next) {
+Node *node_new(void* data, Node* next, Node *prev) {
         Node *new_node = (Node *) malloc(sizeof(Node));
 
         if(new_node == NULL)
@@ -175,5 +181,6 @@ Node *Node_new(void* data, Node* next) {
 
         new_node->data = data;
         new_node->next = next;
+        new_node->prev = prev;
         return new_node;
 }
