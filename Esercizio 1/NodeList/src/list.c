@@ -60,7 +60,7 @@ void list_add_tail(List *list, void *element) {
                 throw_error("invalid parameter: element parameter cannot be NULL");
 
         if(list->tail == NULL) {
-                list->tail = list->head = node_new(element, NULL, NULL);;
+                list->tail = list->head = node_new(element, NULL, NULL);
         } else {
                 list->tail->next = node_new(element, NULL, list->tail);
                 list->tail = list->tail->next;
@@ -79,6 +79,9 @@ void list_add_i(List *list, void *element, int index) {
 
         if(index == 0) {                // head insertion
                 list->head = node_new(element, list->head, NULL);
+                list->tail = list->head;
+        } else if(index == list->element_count) {
+                list_add_tail(list, element);
         } else {
                 Node *cursor = list->head;
                 Node *new_node;
@@ -99,7 +102,9 @@ void list_add_i(List *list, void *element, int index) {
 
 void list_print(List *list, void (print_element)(void*)) {
         Node *iterator = list->head;
+        printf("\n");
         while(iterator) {
+                printf("\n%p :Next: %p, prev: %p", iterator, iterator->next, iterator->prev);
                 print_element(iterator->data);
                 iterator = iterator->next;
         }
@@ -114,11 +119,49 @@ int list_size(List *list) {
 }
 
 void list_remove_tail(List *list) {
-        // (?)
+        if(list == NULL)
+                throw_error("invalid parameter: list parameter cannot be NULL");
+        if(list->element_count == 0)
+                throw_error("cannot remove an element from an empty list");
+
+        if(list->element_count == 1) {
+                free(list->head);
+                list->head = NULL;
+                list->tail = NULL;
+        } else {
+                Node *temp_tail = list->tail;
+                list->tail = list->tail->prev;
+                list->tail->next = NULL;
+                free(temp_tail);
+        }
+        list->element_count -= 1;
 }
 
 void list_remove_i(List *list, int index) {
-        // (?)
+        if(list == NULL)
+                throw_error("invalid parameter: list parameter cannot be NULL");
+        if(list->element_count == 0)
+                throw_error("cannot remove an element from an empty list");
+
+        if(index == list->element_count - 1) {
+                list_remove_tail(list);
+        } else if(index == 0) {                // delete head
+                list->head = list->head->next;
+                free(list->head->prev);
+                list->head->prev = NULL;
+        } else {
+                Node *cursor = list->head;
+                while(index - 1) {          // Move the iterator to the correct position
+                        cursor = cursor->next;
+                        index--;
+                        printf("\n%d", index);
+                }
+                cursor->prev->next = cursor->next;
+                cursor->next->prev = cursor->prev;
+
+                free(cursor);
+        }
+        list->element_count -= 1;
 }
 
 void *list_get_i(List *list, int index) {
