@@ -115,8 +115,10 @@ void test_list_remove_i_all(void) {
         list_add_tail(array_list_int, &i2);
         list_add_tail(array_list_int, &i3);
 
-        for(int i = 2; i >= 0; i--)
+        for(int i = 2; i >= 0; i--) {
                 list_remove_i(array_list_int, i);
+        }
+
 
         TEST_ASSERT_EQUAL_INT(0, list_size(array_list_int));
 }

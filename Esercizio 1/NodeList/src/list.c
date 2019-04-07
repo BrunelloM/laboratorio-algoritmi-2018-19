@@ -80,6 +80,7 @@ void list_add_i(List *list, void *element, int index) {
         if(index == 0) {                // head insertion
                 list->head = node_new(element, list->head, NULL);
                 list->tail = list->head;
+                list->element_count += 1;
         } else if(index == list->element_count) {
                 list_add_tail(list, element);
         } else {
@@ -96,18 +97,21 @@ void list_add_i(List *list, void *element, int index) {
                 else                                                    // Tial case
                          cursor->next = new_node;
 
+                list->element_count += 1;
         }
-        list->element_count += 1;
+
 }
 
 void list_print(List *list, void (print_element)(void*)) {
         Node *iterator = list->head;
         printf("\n");
         while(iterator) {
-                printf("\n%p :Next: %p, prev: %p", iterator, iterator->next, iterator->prev);
+                printf("\n%p: Next: %p, prev: %p", iterator, iterator->next, iterator->prev);
                 print_element(iterator->data);
                 iterator = iterator->next;
         }
+
+        printf("\nHead: %p, Tail: %p", list->head, list->tail);
 }
 
 int list_is_empty(List *list) {
@@ -140,8 +144,9 @@ void list_remove_tail(List *list) {
 void list_remove_i(List *list, int index) {
         if(list == NULL)
                 throw_error("invalid parameter: list parameter cannot be NULL");
-        if(list->element_count == 0)
+        if(list->element_count == 0) {
                 throw_error("cannot remove an element from an empty list");
+        }
 
         if(index == list->element_count - 1) {
                 list_remove_tail(list);
@@ -149,19 +154,21 @@ void list_remove_i(List *list, int index) {
                 list->head = list->head->next;
                 free(list->head->prev);
                 list->head->prev = NULL;
+                list->element_count -= 1;
         } else {
                 Node *cursor = list->head;
-                while(index - 1) {          // Move the iterator to the correct position
+                while(index) {          // Move the iterator to the correct position
                         cursor = cursor->next;
                         index--;
-                        printf("\n%d", index);
                 }
+
                 cursor->prev->next = cursor->next;
                 cursor->next->prev = cursor->prev;
 
                 free(cursor);
+                list->element_count -= 1;
         }
-        list->element_count -= 1;
+
 }
 
 void *list_get_i(List *list, int index) {

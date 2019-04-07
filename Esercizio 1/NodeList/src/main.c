@@ -27,11 +27,10 @@ int main() {
                 list_add_i(list, ptr_int, i);
         }
 
-        //for(int i = 0; i < 6; i++) {
-                //list_remove_i(list, 1);
+        for(int i = 0; i < 6; i++) {
+                list_remove_i(list, i);
                 list_print(list, print_integer);
-        //}
-
+        }
 
 
 
