@@ -24,14 +24,13 @@ int main() {
         for(int i = 0; i < 6; i++) {
                 ptr_int = (int *) malloc(sizeof(int));
                 *ptr_int = values[i];
-                list_add_i(list, ptr_int, i);
+                list_add_tail(list, ptr_int);
         }
 
-        //for(int i = 0; i < 6; i++) {
-                //list_remove_i(list, 1);
+        for(int i = 0; i < 6; i++) {
+                list_remove_i(list, i);
                 list_print(list, print_integer);
-        //}
-
+        }
 
 
 

@@ -21,6 +21,8 @@ struct _Iterator {
 };
 
 Node *node_new(void *, Node *, Node *);
+void add_node_at(List *, Node *, void* );
+void remove_node_at(List *, Node *);
 
 void throw_error(char *string) {
 	fprintf(stderr, "%s", string);
@@ -59,14 +61,7 @@ void list_add_tail(List *list, void *element) {
         if(element == NULL)
                 throw_error("invalid parameter: element parameter cannot be NULL");
 
-        if(list->tail == NULL) {
-                list->tail = list->head = node_new(element, NULL, NULL);
-        } else {
-                list->tail->next = node_new(element, NULL, list->tail);
-                list->tail = list->tail->next;
-        }
-
-        list->element_count += 1;
+        add_node_at(list, list->tail, element);
 }
 
 void list_add_i(List *list, void *element, int index) {
@@ -77,27 +72,12 @@ void list_add_i(List *list, void *element, int index) {
         if(index < 0 || index > list->element_count)
                 throw_error("invalid parameter: invalid index value");
 
-        if(index == 0) {                // head insertion
-                list->head = node_new(element, list->head, NULL);
-                list->tail = list->head;
-        } else if(index == list->element_count) {
-                list_add_tail(list, element);
-        } else {
-                Node *cursor = list->head;
-                Node *new_node;
-                while(index - 1) {          // Move the iterator to the corect position
-                        cursor = cursor->next;
-                        index--;
-                }
+        Node *cursor = list->head;
 
-                new_node = node_new(element, cursor->next, cursor);     // Allocate the new node
-                if(cursor->next != NULL)                                // non-tail case
-                         cursor->next->prev = new_node;
-                else                                                    // Tial case
-                         cursor->next = new_node;
+        for(index -= 1; index > 0; index--)     // Search for the node position in which we have to place the new one
+                cursor = cursor->next;
 
-        }
-        list->element_count += 1;
+        add_node_at(list, cursor, element);
 }
 
 void list_print(List *list, void (print_element)(void*)) {
@@ -108,6 +88,7 @@ void list_print(List *list, void (print_element)(void*)) {
                 print_element(iterator->data);
                 iterator = iterator->next;
         }
+        printf("\nHead: %p, Tail: %p", list->head, list->tail);
 }
 
 int list_is_empty(List *list) {
@@ -124,44 +105,23 @@ void list_remove_tail(List *list) {
         if(list->element_count == 0)
                 throw_error("cannot remove an element from an empty list");
 
-        if(list->element_count == 1) {
-                free(list->head);
-                list->head = NULL;
-                list->tail = NULL;
-        } else {
-                Node *temp_tail = list->tail;
-                list->tail = list->tail->prev;
-                list->tail->next = NULL;
-                free(temp_tail);
-        }
-        list->element_count -= 1;
+        remove_node_at(list, list->tail);
 }
 
 void list_remove_i(List *list, int index) {
         if(list == NULL)
                 throw_error("invalid parameter: list parameter cannot be NULL");
+        if(index < 0 || index >= list->element_count)
+                throw_error("invalid parameter: invalid index value");
         if(list->element_count == 0)
                 throw_error("cannot remove an element from an empty list");
 
-        if(index == list->element_count - 1) {
-                list_remove_tail(list);
-        } else if(index == 0) {                // delete head
-                list->head = list->head->next;
-                free(list->head->prev);
-                list->head->prev = NULL;
-        } else {
-                Node *cursor = list->head;
-                while(index - 1) {          // Move the iterator to the correct position
-                        cursor = cursor->next;
-                        index--;
-                        printf("\n%d", index);
-                }
-                cursor->prev->next = cursor->next;
-                cursor->next->prev = cursor->prev;
+        Node *cursor = list->head;
 
-                free(cursor);
-        }
-        list->element_count -= 1;
+        for(index; index > 0; index--)     // Search for the node position in which we have to remove the node
+                cursor = cursor->next;
+
+        remove_node_at(list, cursor);
 }
 
 void *list_get_i(List *list, int index) {
@@ -179,6 +139,7 @@ Iterator *list_get_iterator(List *list) {
         Iterator *new_iterator = (Iterator *) malloc(sizeof(Iterator));
         if(new_iterator == NULL)
                 throw_error("malloc error: not enough space for an Iterator object");
+
         new_iterator->current_node = list->head;
         return new_iterator;
 }
@@ -226,4 +187,46 @@ Node *node_new(void* data, Node* next, Node *prev) {
         new_node->next = next;
         new_node->prev = prev;
         return new_node;
+}
+
+void add_node_at(List* list, Node *position, void *element) {
+        /*
+        ** There are 4 possible cases:
+        **      - The list is empty, so we have to add the node that will become the tail and the head of the list
+        **      - The position is the head, so we have to add the node that will become the new head of the list
+        **      - The position is the tail, so we have to add the node that will become the new tail of the list
+        **      - The position is neither the tail and the head, so that we have to add the node in the given position
+        **/
+        Node *new_node;
+        if(list->element_count == 0) {
+                list->head = list->tail = node_new(element, NULL, NULL);
+        } else if(position == list->tail) {                                     // Add tail (update list tail)
+                list->tail->next = node_new(element, NULL, list->tail);
+                list->tail = list->tail->next;
+        } else if(position == list->head) {                                     // Add head (update list head)
+                list->head = node_new(element, list->head, NULL);
+                list->head->next->prev = list->head;
+        } else {
+                new_node = node_new(element, position->next, position);           // Allocate the new node
+                position->next->prev = new_node;
+                position->next = new_node;
+        }
+        list->element_count += 1;
+}
+
+void remove_node_at(List* list, Node *position) {
+        if(list->element_count == 1) {
+                list->head = list->tail = NULL;
+        } else if(position == list->tail) {                                            // remove tail (update list tail)
+                list->tail = list->tail->prev;
+                list->tail->next = NULL;
+        } else if(position == list->head) {                                     // remove head (update list head)
+                list->head = list->head->next;
+                list->head->prev = NULL;
+        } else {
+                position->next->prev = position->prev;
+                position->prev->next = position->next;
+        }
+        free(position);
+        list->element_count -= 1;
 }
