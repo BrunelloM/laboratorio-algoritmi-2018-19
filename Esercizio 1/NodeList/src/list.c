@@ -84,7 +84,7 @@ void list_print(List *list, void (print_element)(void*)) {
         Node *iterator = list->head;
         printf("\n");
         while(iterator) {
-                printf("\n%p :Next: %p, prev: %p", iterator, iterator->next, iterator->prev);
+                printf("\n%p: Next: %p, prev: %p", iterator, iterator->next, iterator->prev);
                 print_element(iterator->data);
                 iterator = iterator->next;
         }
@@ -115,6 +115,7 @@ void list_remove_i(List *list, int index) {
                 throw_error("invalid parameter: invalid index value");
         if(list->element_count == 0)
                 throw_error("cannot remove an element from an empty list");
+        }
 
         Node *cursor = list->head;
 
