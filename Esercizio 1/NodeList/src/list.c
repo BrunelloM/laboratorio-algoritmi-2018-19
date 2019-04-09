@@ -115,7 +115,6 @@ void list_remove_i(List *list, int index) {
                 throw_error("invalid parameter: invalid index value");
         if(list->element_count == 0)
                 throw_error("cannot remove an element from an empty list");
-        }
 
         Node *cursor = list->head;
 
