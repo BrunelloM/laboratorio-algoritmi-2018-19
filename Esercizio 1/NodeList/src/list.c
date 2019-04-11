@@ -17,7 +17,7 @@ struct _List {
 };
 
 struct _Iterator {
-        Node *current_node;
+        Node **current_node;
 };
 
 Node *node_new(void *, Node *, Node *);
@@ -84,11 +84,9 @@ void list_print(List *list, void (print_element)(void*)) {
         Node *iterator = list->head;
         printf("\n");
         while(iterator) {
-                printf("\n%p: Next: %p, prev: %p", iterator, iterator->next, iterator->prev);
                 print_element(iterator->data);
                 iterator = iterator->next;
         }
-        printf("\nHead: %p, Tail: %p", list->head, list->tail);
 }
 
 int list_is_empty(List *list) {
@@ -118,13 +116,19 @@ void list_remove_i(List *list, int index) {
 
         Node *cursor = list->head;
 
-        for(index; index > 0; index--)     // Search for the node position in which we have to remove the node
+        for(; index > 0; index--)     // Search for the node position in which we have to remove the node
                 cursor = cursor->next;
 
         remove_node_at(list, cursor);
 }
 
 void *list_get_i(List *list, int index) {
+        if(index < 0 || index >= list->element_count) {
+                printf("\nIndex:%d", index);
+                throw_error("invalid index value");
+        }
+
+
         Node *iterator = list->head;
         while(index) {
                 iterator = iterator->next;
@@ -140,7 +144,7 @@ Iterator *list_get_iterator(List *list) {
         if(new_iterator == NULL)
                 throw_error("malloc error: not enough space for an Iterator object");
 
-        new_iterator->current_node = list->head;
+        new_iterator->current_node = &list->head;
         return new_iterator;
 }
 
@@ -151,14 +155,14 @@ void iterator_next(Iterator *iterator) {
         if(!iterator_is_valid(iterator))
                 throw_error("invalid parameter: iterator parameter cannot be NULL");
 
-        iterator->current_node = iterator->current_node->next;
+        iterator->current_node = &((*iterator->current_node)->next);
 }
 
 int iterator_is_valid(Iterator *iterator) {
         if(iterator == NULL)
                 throw_error("invalid parameter: iterator parameter cannot be NULL");
 
-        return (iterator->current_node != NULL);
+        return (*iterator->current_node != NULL);
 }
 
 void *iterator_get_element(Iterator *iterator) {
@@ -167,7 +171,7 @@ void *iterator_get_element(Iterator *iterator) {
         if(!iterator_is_valid(iterator))
                 return NULL;
 
-        return iterator->current_node->data;
+        return (*iterator->current_node)->data;
 }
 
 void iterator_dispose(Iterator *iterator) {
@@ -229,4 +233,39 @@ void remove_node_at(List* list, Node *position) {
         }
         free(position);
         list->element_count -= 1;
+}
+
+// Compare ritorna true se A >= B, 0 altrimenti
+List *list_merge(List *first, List *second, int (compare)(void*, void*)) {
+        List *new_list = list_create();
+        int i = 0, j = 0;
+        int f_siz = list_size(first), s_siz = list_size(second);
+        void *first_elem, *second_elem;
+
+        while(i < f_siz && j < s_siz) {
+                first_elem = list_get_i(first, i);
+                second_elem = list_get_i(second, j);
+
+                if(compare(first_elem, second_elem)) {
+                        list_add_tail(new_list, first_elem);
+                        i++;
+                } else {
+                        list_add_tail(new_list, second_elem);
+                        j++;
+                }
+        }
+
+        while(i < f_siz) {
+                first_elem = list_get_i(first, i);
+                list_add_tail(new_list, first_elem);
+                i++;
+        }
+
+        while(j < s_siz) {
+                second_elem = list_get_i(second, j);
+                list_add_tail(new_list, second_elem);
+                j++;
+        }
+
+        return new_list;
 }
