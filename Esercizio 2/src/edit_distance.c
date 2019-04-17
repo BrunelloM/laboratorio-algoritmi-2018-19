@@ -1,6 +1,5 @@
 #include "edit_distance.h"
 #include <string.h>
-#include <stdio.h>
 
 int edit_distance_rec(char *, char *, int, int);
 int min(int, int, int);
@@ -9,12 +8,9 @@ int edit_distance_dyn_rec(char *, char *, int l1, int l2, int[l1][l2]);
 int edit_distance_dyn(char *str1, char *str2) {
         int l1 = (int) strlen(str1);
         int l2 = (int) strlen(str2);
-
         int values[l1][l2];
 
         memset(values, -1 , sizeof(values));
-
-
 
         return edit_distance_dyn_rec(str1, str2, l1 , l2, values);
 }
@@ -55,9 +51,9 @@ int edit_distance_rec(char *str1, char *str2, int l1, int l2) {
         if(str1[l1 - 1] == str2[l2 - 1])
                 return edit_distance_rec(str1, str2, l1 - 1, l2 - 1);
         else
-                return min(edit_distance_rec(str1, str2, l1, l2 - 1) + 1,
-                           edit_distance_rec(str1, str2, l1 - 1, l2) + 1,
-                           edit_distance_rec(str1, str2, l1 - 1, l2 - 1) + 1);
+                return 1 + min(edit_distance_rec(str1, str2, l1, l2 - 1),
+                               edit_distance_rec(str1, str2, l1 - 1, l2),
+                               edit_distance_rec(str1, str2, l1 - 1, l2 - 1));
 }
 
 int min(int a, int b, int c) {
