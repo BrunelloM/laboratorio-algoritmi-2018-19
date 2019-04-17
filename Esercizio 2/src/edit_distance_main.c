@@ -2,11 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BUFFER_SIZE 100
+#define BUFFER_SIZE 256
+
+typedef struct _WordsContainer {
+        char **array;
+        int size;
+} WordsContainer;
 
 int buffer_append(char *, char);
-char **get_file_words(char *);
+void dispose_words_container(WordsContainer *);
+WordsContainer *get_file_words(char *);
 int file_words_count(FILE *);
+void print_minimum_ed_words(char);
 
 int main(int argc, char *argv[]) {
         if(argc < 3) {
@@ -14,13 +21,13 @@ int main(int argc, char *argv[]) {
                 exit(EXIT_FAILURE);
         }
 
-        char **words_array = get_file_words(argv[1]);
+        WordsContainer *words_container = get_file_words(argv[1]);
 
-        char **iterator = words_array;
-        while(*iterator != NULL) {
-                printf("\n%s",*iterator);
-                iterator++;
+        for(int i = 0; i < words_container->size; i++) {
+                printf("\n%s", words_container->array[i]);
         }
+
+        dispose_words_container(words_container);
 
 	return 0;
 }
@@ -35,10 +42,17 @@ int buffer_append(char *string, char c) {
         return 1;
 }
 
-char **get_file_words(char *filename) {
+WordsContainer *get_file_words(char *filename) {
         FILE * fp = fopen(filename, "r");
         char c;
         int index = 0;
+        WordsContainer* words_container = (WordsContainer*) malloc(sizeof(words_container));
+
+        if(words_container == NULL) {
+                printf("\nError: malloc() returned an invalid pointer value");
+                exit(EXIT_FAILURE);
+        }
+
         char word_buffer[BUFFER_SIZE];
 
         if(fp == NULL) {
@@ -46,14 +60,14 @@ char **get_file_words(char *filename) {
                 exit(EXIT_FAILURE);
         }
 
-        int array_length = file_words_count(fp);
+        words_container->size = file_words_count(fp);
+        words_container->array = (char**) malloc(sizeof(char*) * (unsigned long int) words_container->size);
 
-        char **words_array = (char**) malloc(sizeof(char*) * array_length);
-        if(words_array == NULL) {
+        if(words_container->array == NULL) {
                 printf("\nError: malloc() returned an invalid pointer value");
                 exit(EXIT_FAILURE);
-
         }
+
         memset(word_buffer, 0, sizeof(word_buffer));
 
 	while((c = (char) fgetc(fp)) != EOF)
@@ -64,13 +78,13 @@ char **get_file_words(char *filename) {
                                 exit(EXIT_FAILURE);
                         }
                 } else if(c == ' ' || c == '\n') {
-                        words_array[index++] = strdup(word_buffer);     // Create a new string and save it to the words_array
+                        words_container->array[index++] = strdup(word_buffer);     // Create a new string and save it to the words_array
                         memset(word_buffer, 0, sizeof(word_buffer));    // Empty word_buffer
                 }
 	}
         fclose(fp);
 
-        return words_array;
+        return words_container;
 }
 
 int file_words_count(FILE *fp) {
@@ -87,4 +101,14 @@ int file_words_count(FILE *fp) {
         }
         rewind(fp);
         return count;
+}
+
+void dispose_words_container(WordsContainer *words_container) {
+        for(int i = 0; i < words_container->size; i++)
+                free(words_container->array[i]);
+        free(words_container);
+}
+
+void print_minimum_ed_words(char *dictionary_fname) {
+
 }

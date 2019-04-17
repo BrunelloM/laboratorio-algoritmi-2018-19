@@ -107,6 +107,7 @@ void list_resize(List *list, int new_size) {
 }
 
 void list_print(List *list, void (print_element)(void*)) {
+        printf("\n");
         for(int i = 0; i < list->element_count; i++) {
                 print_element(list->array_list[i]);
         }
