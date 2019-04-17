@@ -13,7 +13,7 @@ int buffer_append(char *, char);
 void dispose_words_container(WordsContainer *);
 WordsContainer *get_file_words(char *);
 int file_words_count(FILE *);
-void print_minimum_ed_words(char);
+void print_minimum_ed_words(WordsContainer *, char *);
 
 int main(int argc, char *argv[]) {
         if(argc < 3) {
@@ -22,6 +22,8 @@ int main(int argc, char *argv[]) {
         }
 
         WordsContainer *words_container = get_file_words(argv[1]);
+        print_minimum_ed_words(words_container, argv[2]);
+
 
         for(int i = 0; i < words_container->size; i++) {
                 printf("\n%s", words_container->array[i]);
@@ -109,6 +111,17 @@ void dispose_words_container(WordsContainer *words_container) {
         free(words_container);
 }
 
-void print_minimum_ed_words(char *dictionary_fname) {
+void print_minimum_ed_words(WordsContainer *words_container, char *dictionary_fname) {
+        FILE *fp = fopen(dictionary_fname, "r");
+        if(fp == NULL) exit(EXIT_FAILURE);
+        char buffer[BUFFER_SIZE];
+        
 
+        while(fgets(buffer, sizeof(buffer), fp) != NULL) {
+                printf("%s", buffer);
+        }
+
+        // for(int i = 0; i < words_container->size; i++) {
+        //
+        // }
 }
