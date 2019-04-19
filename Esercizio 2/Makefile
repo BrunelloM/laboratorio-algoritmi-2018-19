@@ -9,8 +9,8 @@ COMMON_DEPS = $(INCLUDES) Makefile
 obj/%.o: src/%.c $(COMMON_DEPS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-bin/edit_distance_main: obj/edit_distance.o obj/edit_distance_main.o $(COMMON_DEPS)
-	$(CC) -o bin/edit_distance_main obj/edit_distance.o obj/edit_distance_main.o
+bin/edit_distance_main: obj/edit_distance.o obj/edit_distance_main.o obj/node_list.o $(COMMON_DEPS)
+	$(CC) -o bin/edit_distance_main obj/edit_distance.o obj/edit_distance_main.o obj/node_list.o
 
 clean:
 	rm -f obj/* bin/*
