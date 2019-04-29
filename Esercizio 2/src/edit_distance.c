@@ -2,7 +2,6 @@
 #include <string.h>
 
 int edit_distance_rec(char *, char *, int, int);
-int min(int, int, int);
 int edit_distance_dyn_rec(char *, char *, int l1, int l2, int[l1][l2]);
 
 int edit_distance_dyn(char *str1, char *str2) {
