@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 int main(int argc, char *argv[]) {
+        
   if(argc < 3) {
     printf("Usage: edit_distance <string1> <string2>\n");
     exit(EXIT_FAILURE);
