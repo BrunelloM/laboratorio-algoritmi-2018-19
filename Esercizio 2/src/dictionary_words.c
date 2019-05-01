@@ -5,6 +5,7 @@
 #include <time.h>
 #include "list.h"
 #include "edit_distance.h"
+#include <time.h>
 
 #define BUFFER_SIZE 256
 
@@ -31,6 +32,9 @@ int main(int argc, char *argv[]) {
     printf("Usage: edit_distance <correctme_path> <dictionary_path>\n");
     exit(EXIT_FAILURE);
   }
+  clock_t start, end;
+  start = clock();
+
   List *correctme_words = get_file_words(argv[1]);
   List *dictionary_words = get_dictionary_words(argv[2]);
   Iterator *words_iterator = list_get_iterator(correctme_words);
@@ -42,8 +46,9 @@ int main(int argc, char *argv[]) {
   iterator_dispose(words_iterator);
   free_string_list(correctme_words);
   free_string_list(dictionary_words);
-
-	return 0;
+  end = clock();
+  printf("\nThe program took %f seconds", ((double) (end - start)) / CLOCKS_PER_SEC);
+  return 0;
 }
 
 int buffer_append(char *string, char c) {
@@ -189,6 +194,7 @@ void free_wad_list(List *wad_list) {
 
 void print_wad(void *element) {
   WordAndDictionary *current_el = (WordAndDictionary *) element;
-  printf("\n%s", current_el->word);
+  printf("\n+====================================+");
+  printf("\n%s: ", current_el->word);
   list_print(current_el->minimum_ed_words, print_string);
 }

@@ -82,7 +82,6 @@ void list_add_i(List *list, void *element, int index) {
 
 void list_print(List *list, void (print_element)(void*)) {
         Node *iterator = list->head;
-        printf("\n");
         while(iterator) {
                 print_element(iterator->data);
                 iterator = iterator->next;
@@ -221,10 +220,10 @@ void add_node_at(List* list, Node *position, void *element) {
 void remove_node_at(List* list, Node *position) {
         if(list->element_count == 1) {
                 list->head = list->tail = NULL;
-        } else if(position == list->tail) {                                            // remove tail (update list tail)
+        } else if(position == list->tail) {                             // remove tail (update list tail)
                 list->tail = list->tail->prev;
                 list->tail->next = NULL;
-        } else if(position == list->head) {                                     // remove head (update list head)
+        } else if(position == list->head) {                             // remove head (update list head)
                 list->head = list->head->next;
                 list->head->prev = NULL;
         } else {
@@ -235,7 +234,6 @@ void remove_node_at(List* list, Node *position) {
         list->element_count -= 1;
 }
 
-// Compare ritorna true se A >= B, 0 altrimenti
 List *list_merge(List *first, List *second, int (compare)(void*, void*)) {
         List *new_list = list_create();
         int i = 0, j = 0;
