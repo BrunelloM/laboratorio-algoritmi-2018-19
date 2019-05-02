@@ -1,3 +1,5 @@
+package unionfindset;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Arrays;
@@ -6,13 +8,9 @@ import java.util.Arrays;
 ** @param <T>: Type of the set elements
 */
 public class UnionFind<T> {
-    private Comparator<? super T> comparator = null;
     ArrayList<ArrayList<T>> setsCollection = null;
 
-    public UnionFind(Comparator<? super T> comparator) throws SetException {
-        if(comparator == null) throw new SetException("Comparator parameter cannot be null value");
-
-        this.comparator = comparator;
+    public UnionFind() {
         this.setsCollection = new ArrayList<>();
     }
 
@@ -34,7 +32,7 @@ public class UnionFind<T> {
             Sx.addAll(Sy);              // Merge Sx with Sy
             setsCollection.remove(Sy);  // Remove the non merged set
         }
-        
+
     }
 
     public T find(T x) {

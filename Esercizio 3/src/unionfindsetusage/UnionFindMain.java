@@ -1,7 +1,11 @@
+package unionfindsetusage;
+
+import unionfindset.*;
+
 public class UnionFindMain {
     public static void main(String[] args) {
         try {
-            UnionFind<Integer> unionFind = new UnionFind<Integer>(new IntegerComparator());
+            UnionFind<Integer> unionFind = new UnionFind<Integer>();
             for(int i = 0; i < 10; i++)
                 unionFind.makeSet(i);
 
