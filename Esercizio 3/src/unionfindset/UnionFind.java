@@ -1,5 +1,3 @@
-package unionfindset;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Arrays;
@@ -8,52 +6,39 @@ import java.util.Arrays;
 ** @param <T>: Type of the set elements
 */
 public class UnionFind<T> {
-    ArrayList<ArrayList<T>> setsCollection = null;
+    ArrayList<T> elements = null;
+    int parents[] = null;
 
     public UnionFind() {
-        this.setsCollection = new ArrayList<>();
+        elements = new ArrayList<>();
     }
 
-    public void makeSet(T x) throws SetException {
-        // Check if the value is already present in one of the sets
-        if(find(x) != null) throw new SetException("Element already present in one set");
-        ArrayList<T> newSet = new ArrayList<>();
-        newSet.add(x);
-        this.setsCollection.add(newSet);
-    }
-
-    public void union(T x, T y) throws SetException {
-        if(find(x) == null || find(y) == null) throw new SetException("One of the 2 elements are not present in any sets");
-
-        ArrayList<T> Sx = getSet(x);
-        ArrayList<T> Sy = getSet(y);
-
-        if(Sx != Sy) {
-            Sx.addAll(Sy);              // Merge Sx with Sy
-            setsCollection.remove(Sy);  // Remove the non merged set
+    public void makeSet(ArrayList<T> set) {
+        parents = new T[set.size()];
+        for(int i = 0; i < set.size(); i++) {
+            parents[i] = i;
+            elements.add(set.get(i));
         }
+    }
+
+    public void makeSet(T... set) {
 
     }
 
     public T find(T x) {
-        for(ArrayList<T> curSet : setsCollection) {
-            if(curSet.contains(x))
-                return curSet.get(0);
-        }
-        return null;
+        int index = elements.indexOf(x);
+
+        if(index == -1) throws new SetException();
     }
 
-    private ArrayList<T> getSet(T x) {
-        for(ArrayList<T> curSet : setsCollection) {
-            if(curSet.contains(x))
-                return curSet;
-        }
-        return null;
+    public void union(T x, T y) {
+
     }
+
 
     public void print() {
-        for(ArrayList<T> curSet : setsCollection) {
-            System.out.println(Arrays.toString(curSet.toArray()));
+        for(Element elem : elements) {
+            System.out.println(elem + "->" + elem.getParent());
         }
     }
 

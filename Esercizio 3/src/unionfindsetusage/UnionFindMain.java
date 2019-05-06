@@ -1,7 +1,3 @@
-package unionfindsetusage;
-
-import unionfindset.*;
-
 public class UnionFindMain {
     public static void main(String[] args) {
         try {
