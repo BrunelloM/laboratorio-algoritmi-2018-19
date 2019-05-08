@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "list.h"
+#include "list_merge.h"
 
 void print_integer(void *element) {
         printf(" %d", *((int*) element));
@@ -15,7 +16,8 @@ void free_memory(List *to_free) {
         void *data_to_free;
         while(iterator_is_valid(iterator)) {
                 data_to_free = iterator_get_element(iterator);
-                iterator_next(iterator);
+                iterator_next(iterator);// Compare ritorna true se A >= B, 0 altrimenti
+
                 free(data_to_free);
         }
 }

@@ -116,10 +116,4 @@ void iterator_dispose(Iterator *);
 */
 void list_print(List *, void (print_element)(void*));
 
-/*
-** mergesort di due Liste
-** criterio e' il criterio di ordinamento
-*/
-List *list_merge(List*, List*, int (criterio)(void*, void*));
-
 #endif
