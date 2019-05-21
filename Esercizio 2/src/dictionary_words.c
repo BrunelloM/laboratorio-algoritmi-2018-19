@@ -28,6 +28,8 @@ List *words_dic_list(List *, List *);
 
 
 int main(int argc, char *argv[]) {
+  setbuf(stdout, NULL);
+
   if(argc < 3) {
     printf("Usage: edit_distance <correctme_path> <dictionary_path>\n");
     exit(EXIT_FAILURE);
@@ -35,10 +37,15 @@ int main(int argc, char *argv[]) {
   clock_t start, end;
   start = clock();
 
+  printf("\nLoading %s file...", argv[1]);
   List *correctme_words = get_file_words(argv[1]);
+  printf("\nThe file has been successfully loaded into the memory.");
+  printf("\nLoading %s file...", argv[2]);
   List *dictionary_words = get_dictionary_words(argv[2]);
-  Iterator *words_iterator = list_get_iterator(correctme_words);
+  printf("\nThe file has been successfully loaded into the memory.");
+  printf("\nCalculating minimum edit distance words...");
 
+  Iterator *words_iterator = list_get_iterator(correctme_words);
   List *wd_list = words_dic_list(correctme_words, dictionary_words);
 
   list_print(wd_list, print_wad);
@@ -117,13 +124,16 @@ void print_string(void *element) {
 
 int minimum_ed(char *string, List *dictionary) {
   assert(string != NULL && dictionary != NULL);
+  unsigned int string_length = strlen(string);
   Iterator *dictionary_iterator = list_get_iterator(dictionary);
   int min_value = edit_distance_dyn(string, iterator_get_element(dictionary_iterator));
 
-  while(iterator_is_valid(dictionary_iterator)) {
-    min_value = min2(min_value,
-    edit_distance_dyn(string, iterator_get_element(dictionary_iterator)));
-    iterator_next(dictionary_iterator);
+  while(iterator_is_valid(dictionary_iterator) && min_value != 0) {
+          if(strlen((char *) iterator_get_element(dictionary_iterator)) == string_length) {
+                  min_value = min2(min_value,
+                          edit_distance_dyn(string, iterator_get_element(dictionary_iterator)));
+          }
+          iterator_next(dictionary_iterator);
   }
 
   iterator_dispose(dictionary_iterator);
