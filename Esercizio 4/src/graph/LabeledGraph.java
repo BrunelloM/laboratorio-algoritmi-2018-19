@@ -1,7 +1,5 @@
 package graph;
 
-package graph;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,17 +9,51 @@ import java.util.Comparator;
  * @param <T>: vertices label type
  * @param <U>: edges label type
  * @author Brunello Matteo, Caresio Lorenzo
+ * <p>
+ * <p>
+ * The class has been developed according to the guidelines stated on the project assignment:
+ * LabeledGraph: creazione di un grafo vuoto – O(1)
+ * addVertex: aggiunta di un nodo – O(1)
+ * addEdge: aggiunta di un arco – O(1)
+ * isWeighted: verifica se il grafo è diretto – O(1)
+ * findVertex: verifica se il grafo contiene un dato nodo – O(1)
+ * ?
+ * removeVertex: Cancellazione di un nodo – O(n)
+ * removeEdge: Cancellazione di un arco – O(1) quando il grafo è veramente sparso
+ * getVerticesNumber: Determinazione del numero di nodi – O(n)
+ * getEdgesNumber: Determinazione del numero di archi – O(n)
+ * getVertices: Recupero dei nodi del grafo – O(n)
+ * ?
+ * getAdjacentEdges: Recupero nodi adiacenti di un dato nodo – O(n)
+ * ?
+ *
+ * To be added:
+ * Recupero degli archi del grafo – O(n)
+ * Verifica se il grafo contiene un dato arco – O(1) quando il grafo è veramente sparso
+ * Recupero etichetta associata a una coppia di nodi – O(1) quando il grafo è veramente sparso.
+ *
  */
 public class LabeledGraph<T, U> {
 
   // The HashMap is used both to implement an Adjacency list and to implement an efficient way to directly access to an object
-  private HashMap<Vertex<T>, ArrayList<LabeledEdge<T, U>>> adjacencyList = new HashMap<Vertex<T>, ArrayList<LabeledEdge<T, U>>>();
-  private HashMap<T, Vertex<T>> vertices = new HashMap<T, Vertex<T>>();
+  private HashMap<Vertex<T>, ArrayList<LabeledEdge<T, U>>> adjacencyList;
+  private HashMap<T, Vertex<T>> vertices;
 
-  private int verticesNumber = 0;
-  private int edgesNumber = 0;
-  private boolean isWeighted = false;
-  private boolean isDirected = false;
+  private int verticesNumber;
+  private int edgesNumber;
+  private boolean isWeighted;
+  private boolean isDirected;
+
+  public LabeledGraph() {
+
+    verticesNumber = 0;
+    edgesNumber = 0;
+    isWeighted = false;
+    isDirected = false;
+
+    adjacencyList = new HashMap<>();
+    vertices = new HashMap<>();
+  }
 
   /**
    * Setter for the isWeighted variable.
@@ -64,6 +96,13 @@ public class LabeledGraph<T, U> {
       verticesArrayList.add(vertex);
     }
     return verticesArrayList;
+  }
+
+  /**
+   * Returns the number of vertices contained in the graph.
+   */
+  public int getVerticesNumber() {
+    return verticesNumber;
   }
 
   /**
@@ -110,11 +149,9 @@ public class LabeledGraph<T, U> {
   /**
    * Returns the vertex degree of a given vertex.
    *
-   * @param vertexLabel: the label of the vertex to use to compute its degree
+   * @param vertex: the vertex to use to compute its degree
    */
-  public int getVertexDegree(T vertexLabel) {
-
-    Vertex<T> vertex = findVertex(vertexLabel);
+  public int getVertexDegree(Vertex<T> vertex) {
 
     if (vertex != null) {
       int sum = adjacencyList.get(vertex).size();
@@ -129,19 +166,16 @@ public class LabeledGraph<T, U> {
 
       return sum;
     } else {
-      throw new IllegalStateException("The vertex isn't part of the graph.");
+      throw new IllegalStateException("The vertex has to be a valid vertex.");
     }
   }
 
   /**
    * Returns the incidents edges to a given vertex.
    *
-   * @param vertexLabel: the label of the vertex onto which compute the
-   *                     incident edges
+   * @param vertex: the vertex of which the incident edges has to be computed
    */
-  public ArrayList<LabeledEdge<T, U>> incidentEdges(T vertexLabel) {
-
-    Vertex<T> vertex = findVertex(vertexLabel);
+  public ArrayList<LabeledEdge<T, U>> incidentEdges(Vertex<T> vertex) {
 
     if (vertex != null) {
       ArrayList<LabeledEdge<T, U>> incidentEdges = new ArrayList<LabeledEdge<T, U>>();
@@ -157,20 +191,17 @@ public class LabeledGraph<T, U> {
 
       return incidentEdges;
     } else {
-      throw new IllegalStateException("The vertex isn't part of the graph.");
+      throw new IllegalStateException("The vertex has to be a valid vertex.");
     }
   }
 
   /**
    * Computes if the two given vertices are adjacent to eachothers.
    *
-   * @param aVertexLabel: the first vertex label
-   * @param bVertexLabel: the second vertex label
+   * @param aVertex: the first vertex
+   * @param bVertex: the second vertex
    */
-  public boolean adjacent(T aVertexLabel, T bVertexLabel) {
-
-    Vertex<T> aVertex = findVertex(aVertexLabel);
-    Vertex<T> bVertex = findVertex(bVertexLabel);
+  public boolean adjacent(Vertex<T> aVertex, Vertex<T> bVertex) {
 
     if (aVertex != null && bVertex != null) {
 
@@ -188,7 +219,7 @@ public class LabeledGraph<T, U> {
 
       return false;
     } else {
-      throw new IllegalStateException("A vertex or both aren't part of the graph.");
+      throw new IllegalStateException("A vertex or both aren't not valid.");
     }
   }
 
@@ -219,14 +250,11 @@ public class LabeledGraph<T, U> {
    * Adds an edge to the graph using its label and its two corresponding
    * vertices. If the vertices aren't already part of the graph, returns false
    *
-   * @param edgeLabel:    the label of the edge to add to the graph
-   * @param xVertexLabel: the label of the first vertex
-   * @param yVertexLabel: the label of the second vertex
+   * @param edgeLabel: the label of the edge to be added to the graph
+   * @param xVertex:   the first vertex
+   * @param yVertex:   the second vertex
    */
-  public boolean addEdge(U edgeLabel, T xVertexLabel, T yVertexLabel) {
-
-    Vertex<T> xVertex = findVertex(xVertexLabel);
-    Vertex<T> yVertex = findVertex(yVertexLabel);
+  public boolean addEdge(U edgeLabel, Vertex<T> xVertex, Vertex<T> yVertex) {
 
     if (xVertex != null && yVertex != null) {
 
@@ -288,12 +316,10 @@ public class LabeledGraph<T, U> {
   /**
    * Removes an edge from the graph using the two given vertices.
    *
-   * @param xVertexLabel: the label of the first vertex
-   * @param yVertexLabel: the label of the second vertex
+   * @param xVertex: the first vertex
+   * @param yVertex: the second vertex
    */
-  public boolean removeEdge(T xVertexLabel, T yVertexLabel) {
-    Vertex<T> xVertex = findVertex(xVertexLabel);
-    Vertex<T> yVertex = findVertex(yVertexLabel);
+  public boolean removeEdge(Vertex<T> xVertex, Vertex<T> yVertex) {
 
     for (LabeledEdge<T, U> edge : adjacencyList.get(xVertex)) {
       if (edge.getYVertex().equals(yVertex)) {
