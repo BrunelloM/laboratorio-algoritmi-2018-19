@@ -56,10 +56,6 @@ public class Vertex<T> {
     return vertexLabel.equals(vertex.vertexLabel);
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(vertexLabel);
-  }
 
   @Override
   public String toString() {
