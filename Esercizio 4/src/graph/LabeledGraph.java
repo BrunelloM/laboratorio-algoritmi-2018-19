@@ -24,7 +24,7 @@ import java.util.Set;
  * getSet: Recupero dei nodi del grafo – O(n)
  * getEdges: Recupero degli archi del grafo – O(n)
  * getAdjacentVertices: Recupero nodi adiacenti di un dato nodo – O(n)
- * Recupero etichetta associata a una coppia di nodi – O(1) quando il grafo è veramente sparso.
+ * getLabelByVertices: Recupero etichetta associata a una coppia di nodi – O(1) quando il grafo è veramente sparso.
  */
 public class LabeledGraph<T, U> {
 
@@ -88,7 +88,6 @@ public class LabeledGraph<T, U> {
 
       Vertex<T> newVertex = new Vertex(vertexLabel);
       vertices.put(vertexLabel, newVertex);
-      verticesNumber++;
 
       HashMap<Vertex<T>, LabeledEdge<T, U>> adjacentToThisVertex = new HashMap<>();
       adjacencyList.put(newVertex, adjacentToThisVertex);
@@ -208,7 +207,7 @@ public class LabeledGraph<T, U> {
    * @return the number of vertices contained in the graph
    */
   public int getVerticesSize() {
-    return adjacencyList.size();
+    return vertices.size();
   }
 
   /**
