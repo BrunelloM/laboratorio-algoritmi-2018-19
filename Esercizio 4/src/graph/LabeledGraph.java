@@ -2,7 +2,6 @@ package graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * @param <T>: vertices label type
@@ -80,9 +79,9 @@ public class LabeledGraph<T, U> {
    * Adds a vertex to the graph using its label.
    *
    * @param vertexLabel: the label of the vertex to be added to the graph
-   * @return true if added, false if a vertex with the same label is already part of the graph
+   * @return the newly added vertex, null if a vertex with the same label is already part of the graph
    */
-  public boolean addVertex(T vertexLabel) {
+  public Vertex<T> addVertex(T vertexLabel) {
 
     if (vertices.get(vertexLabel) == null) {
 
@@ -92,21 +91,24 @@ public class LabeledGraph<T, U> {
       HashMap<Vertex<T>, LabeledEdge<T, U>> adjacentToThisVertex = new HashMap<>();
       adjacencyList.put(newVertex, adjacentToThisVertex);
 
-      return true;
+      return newVertex;
     } else {
-      return false;
+      return null;
     }
   }
 
   /**
    * Adds an edge to the graph using its label and its two corresponding vertices.
    *
-   * @param edgeLabel: the label of the edge to be added to the graph
-   * @param xVertex:   the first vertex
-   * @param yVertex:   the second vertex
-   * @return true if added, false if vertices aren't not valid
+   * @param edgeLabel:    the label of the edge to be added to the graph
+   * @param xVertexLabel: the first vertex label
+   * @param yVertexLabel: the second vertex label
+   * @return the newly added edge, null if vertices aren't not valid
    */
-  public boolean addEdge(U edgeLabel, Vertex<T> xVertex, Vertex<T> yVertex) {
+  public LabeledEdge<T, U> addEdge(U edgeLabel, T xVertexLabel, T yVertexLabel) {
+
+    Vertex<T> xVertex = vertices.get(xVertexLabel);
+    Vertex<T> yVertex = vertices.get(yVertexLabel);
 
     if (xVertex != null && yVertex != null) {
 
@@ -125,18 +127,18 @@ public class LabeledGraph<T, U> {
         edgesNumber++;
       }
 
-      return true;
+      return xToYEdge;
     } else {
-      return false;
+      return null;
     }
   }
 
   /**
-   * @param vertex: the vertex to be found in the graph
+   * @param vertexLabel: the label of the vertex to be found in the graph
    * @return true if the vertex is part of the graph, false otherwise
    */
-  public boolean containsVertex(Vertex<T> vertex) {
-    return (adjacencyList.get(vertex) != null);
+  public boolean containsVertex(T vertexLabel) {
+    return (vertices.get(vertexLabel) != null);
   }
 
   /**
@@ -220,7 +222,7 @@ public class LabeledGraph<T, U> {
       edgesSize = edgesSize + edges.size();
     }
 
-    return !isDirected ? edgesSize : edgesSize / 2;
+    return isDirected ? edgesSize : edgesSize / 2;
   }
 
   /**

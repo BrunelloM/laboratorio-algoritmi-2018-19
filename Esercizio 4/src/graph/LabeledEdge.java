@@ -66,7 +66,7 @@ public class LabeledEdge<T, U> {
    */
   public double getWeight() {
     if (isWeighted) {
-      return edgeWeight.doubleValue();
+      return edgeWeight;
     } else {
       throw new UnsupportedOperationException("The edge isn't weighted.");
     }
