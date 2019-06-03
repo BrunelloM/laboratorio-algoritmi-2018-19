@@ -1,7 +1,7 @@
 #!/bin/sh
 rm -rf ./out/*;
+mkdir ./out/graph  ./out/unionfindset ./out/kruskalAlgorithm ./out/kruskalAlgorithmUsage
 cd src;
-javac -d ../out ./graph/Graph.java || exit;
-javac -d ../out ./graphusage/GraphUsage.java || exit;
+javac -d ../out/ ./kruskalAlgorithmUsage/*.java || exit
 cd ../out/;
-java unionfindsetusage/UnionFindMain;
+java kruskalAlgorithmUsage/KruskalAlgorithmUsage $1;

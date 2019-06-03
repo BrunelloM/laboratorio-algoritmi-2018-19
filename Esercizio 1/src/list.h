@@ -114,6 +114,6 @@ void iterator_dispose(Iterator *);
 ** @param void (print_element)(void*): The pointer of the function which should be defined by the user.
 ** This function should be implemented in order to print a single element of the list.
 */
-void list_print(List *, void (print_element)(void*));
+void list_print(List *, void (print_element)(void *));
 
 #endif

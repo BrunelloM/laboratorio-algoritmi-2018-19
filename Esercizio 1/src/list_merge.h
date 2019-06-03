@@ -13,7 +13,7 @@
 ** @param int(criterio(void*, void*)): Function pointer that should be implemented, see below its implementation is described above.
 ** @returns List *: The pointer of the new List that contains both first and second's elements ordered by {criterio].
 */
-List *list_merge(List*, List*, int (criterio)(void*, void*));
+List *list_merge(List *, List *, int (criterio)(void *, void *));
 
 /*
 ** Reorder the given list (passed as parameter) using insertion sort algorithm
@@ -23,5 +23,6 @@ List *list_merge(List*, List*, int (criterio)(void*, void*));
 ** @param List *: A pointer of the list tha will be ordered
 ** @param int(criterio(void*, void*)): Function pointer that should be implemented, see below its implementation is described above.
 */
-void list_insetion_sort(List *, int (criterio)(void*, void*));
+void list_insetion_sort(List *, int (criterio)(void *, void *));
+
 #endif

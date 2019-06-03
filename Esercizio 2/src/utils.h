@@ -16,7 +16,7 @@ int min(int, int, int);
 ** @param int: Number of columns of the new matrix
 ** @return int**: The pointer (address) of the allocated and initialized matrix.
 */
-int** new_matrix(int, int);
+int **new_matrix(int, int);
 
 /*
 ** Function that free the previously allocated (with new_matrix function) matrix.
