@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
   free_string_list(correctme_words);
   free_string_list(dictionary_words);
   end = clock();
-  printf("\nThe program took %f seconds", ((double) (end - start)) / CLOCKS_PER_SEC);
+  printf("\nThe program took %f seconds to complete its job.", ((double) (end - start)) / CLOCKS_PER_SEC);
   return 0;
 }
 
