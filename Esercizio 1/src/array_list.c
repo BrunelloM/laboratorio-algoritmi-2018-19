@@ -2,19 +2,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Soglia sotto la quale l'array deve essere ridimensionato
+// Minimum number of elements before shrinking
 #define MIN_PCT_EL 1/4
-// Fattore moltiplicativo di crescrita dell'array
+// Constant to define how much the array will grow when needed
 #define GROWTH_FACTOR 2
-// Fattore moltiplicativo di riduzione dell'array
+// Constant to define how much the array will shrink when needed
 #define SHRINKING_FACTOR 1/2
-// Grandezza iniziale di elementi dell'array
+//Initial array size
 #define INITIAL_SIZE 100
 
 struct _List {
   void **array_list;
   int element_count;
-  int tail_index;
   int array_size;
 };
 
@@ -23,10 +22,23 @@ struct _Iterator {
   List *list;
 };
 
+/*
+** Right shift method: Shifts all the elements from one index to the right by one position
+** @param List *: The list in which the shift will be carried out
+** @param int: The index where to start.
+*/
 void list_right_shift(List *, int);
-
+/*
+** Left shift method: Shifts all the elements to the left from the end of the list to a specific index.
+** @param List *: The list in which the shift will be carried out
+** @param int: The index where to end.
+*/
 void list_left_shift(List *, int);
-
+/*
+** Resize function: It uses realloc to reallocate the memory
+** @param List *: The List that should be resized
+** @param int: The new size of the list
+*/
 void list_resize(List *, int);
 
 void throw_error(char *string) {
@@ -41,7 +53,6 @@ List *list_create() {
   new_list->array_list = (void **) malloc(sizeof(void *) * INITIAL_SIZE);
   if (new_list->array_list == NULL)
     throw_error("malloc error: not enough space for an array of void pointers");
-  new_list->tail_index = -1;
   new_list->element_count = 0;
   new_list->array_size = INITIAL_SIZE;
   return new_list;
@@ -63,10 +74,10 @@ void list_add_tail(List *list, void *element) {
     throw_error("invalid parameter: element parameter cannot be NULL");
 
   if (list->element_count + 1 >= list->array_size) {
-    // reallocate memory
+    // reallocate memory (it is greater than the maximum size)
     list_resize(list, list->array_size * GROWTH_FACTOR);
   }
-  list->array_list[++list->tail_index] = element;
+  list->array_list[list->element_count] = element;
   list->element_count++;
 }
 
@@ -88,17 +99,15 @@ void list_add_i(List *list, void *element, int index) {
 }
 
 void list_right_shift(List *list, int to) {
-  for (int i = list->tail_index; i >= to; i--) {
+  for (int i = list->element_count - 1; i >= to; i--) {
     list->array_list[i + 1] = list->array_list[i];
   }
-  list->tail_index += 1;
 }
 
 void list_left_shift(List *list, int from) {
-  for (int i = from; i < list->tail_index; i++) {
+  for (int i = from; i < list->element_count - 1; i++) {
     list->array_list[i] = list->array_list[i + 1];
   }
-  list->tail_index -= 1;
 }
 
 void list_resize(List *list, int new_size) {
@@ -109,7 +118,6 @@ void list_resize(List *list, int new_size) {
 }
 
 void list_print(List *list, void (print_element)(void *)) {
-  printf("\n");
   for (int i = 0; i < list->element_count; i++) {
     print_element(list->array_list[i]);
   }
@@ -131,10 +139,9 @@ void list_remove_tail(List *list) {
   if (list == NULL)
     throw_error("invalid parameter: list parameter cannot be NULL");
 
-  list->tail_index--;
   list->element_count--;
 
-  if (list->tail_index <= (int) (list->array_size * MIN_PCT_EL)) {
+  if (list->element_count <= (int) (list->array_size * MIN_PCT_EL)) {
     list_resize(list, list->array_size * SHRINKING_FACTOR);
   }
 }

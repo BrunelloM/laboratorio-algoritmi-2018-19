@@ -26,16 +26,17 @@ int edit_distance_dyn_rec(char *str1, char *str2, int l1, int l2, int **values) 
   if (l2 == 0)
     return l1;
 
-
   if (str1[l1 - 1] == str2[l2 - 1])
     values[l1][l2] = edit_distance_dyn_rec(str1, str2, l1 - 1, l2 - 1, values);
   else {
     // The next value hasn't been calculated yet
-    if (values[l1 - 1][l2 - 1] != -1)
-      return values[l1 - 1][l2 - 1] + 1; // The next value has been calculated yet
-    values[l1][l2] = 1 + min(edit_distance_dyn_rec(str1, str2, l1 - 1, l2, values),
-                             edit_distance_dyn_rec(str1, str2, l1, l2 - 1, values),
-                             edit_distance_dyn_rec(str1, str2, l1 - 1, l2 - 1, values));
+    if (values[l1 - 1][l2 - 1] == -1) values[l1 - 1][l2 - 1] = edit_distance_dyn_rec(str1, str2, l1 - 1, l2 - 1, values) + 1;
+    if (values[l1 - 1][l2] == -1) values[l1 - 1][l2] = edit_distance_dyn_rec(str1, str2, l1 - 1, l2, values) + 1;
+    if (values[l1][l2 - 1] == -1) values[l1][l2 - 1] = edit_distance_dyn_rec(str1, str2, l1, l2 - 1, values) + 1;
+
+    return values[l1][l2] = min(values[l1 - 1][l2 - 1],
+                                values[l1 - 1][l2],
+                                values[l1][l2 - 1]);
   }
 
   return values[l1][l2];

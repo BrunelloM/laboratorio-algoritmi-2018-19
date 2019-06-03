@@ -2,6 +2,7 @@
 #include "utils.h"
 #include <string.h>
 
+
 int edit_distance_rec(char *, char *, int, int);
 
 int edit_distance(char *str1, char *str2) {
