@@ -200,3 +200,9 @@ void iterator_dispose(Iterator *iterator) {
     throw_error("invalid parameter: iterator parameter cannot be NULL");
   free(iterator);
 }
+
+void iterator_rewind(Iterator *iterator) {
+  if (iterator == NULL)
+    throw_error("invalid parameter: iterator parameter cannot be NULL");
+  iterator->index = 0;
+}

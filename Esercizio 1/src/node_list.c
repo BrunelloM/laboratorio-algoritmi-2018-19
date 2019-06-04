@@ -18,6 +18,7 @@ struct _List {
 
 struct _Iterator {
   Node **current_node;
+  List *list;
 };
 
 Node *node_new(void *, Node *, Node *);
@@ -146,6 +147,7 @@ Iterator *list_get_iterator(List *list) {
   if (new_iterator == NULL)
     throw_error("malloc error: not enough space for an Iterator object");
 
+  new_iterator->list = list;
   new_iterator->current_node = &list->head;
   return new_iterator;
 }
@@ -165,6 +167,13 @@ int iterator_is_valid(Iterator *iterator) {
     throw_error("invalid parameter: iterator parameter cannot be NULL");
 
   return (*iterator->current_node != NULL);
+}
+
+void iterator_rewind(Iterator *iterator) {
+  if (iterator == NULL)
+    throw_error("invalid parameter: iterator parameter cannot be NULL");
+
+  iterator->current_node = &(iterator->list->head);
 }
 
 void *iterator_get_element(Iterator *iterator) {

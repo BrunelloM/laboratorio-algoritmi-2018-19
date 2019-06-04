@@ -18,6 +18,7 @@ struct _List {
 
 struct _Iterator {
   Node **current_node;
+  List *list;
 };
 
 Node *node_new(void *, Node *, Node *);
@@ -84,6 +85,7 @@ void list_add_i(List *list, void *element, int index) {
 
 void list_print(List *list, void (print_element)(void *)) {
   Node *iterator = list->head;
+  printf("\n");
   while (iterator) {
     print_element(iterator->data);
     iterator = iterator->next;
@@ -145,6 +147,7 @@ Iterator *list_get_iterator(List *list) {
   if (new_iterator == NULL)
     throw_error("malloc error: not enough space for an Iterator object");
 
+  new_iterator->list = list;
   new_iterator->current_node = &list->head;
   return new_iterator;
 }
@@ -164,6 +167,13 @@ int iterator_is_valid(Iterator *iterator) {
     throw_error("invalid parameter: iterator parameter cannot be NULL");
 
   return (*iterator->current_node != NULL);
+}
+
+void iterator_rewind(Iterator *iterator) {
+  if (iterator == NULL)
+    throw_error("invalid parameter: iterator parameter cannot be NULL");
+
+  iterator->current_node = &(iterator->list->head);
 }
 
 void *iterator_get_element(Iterator *iterator) {
@@ -222,10 +232,10 @@ void add_node_at(List *list, Node *position, void *element) {
 void remove_node_at(List *list, Node *position) {
   if (list->element_count == 1) {
     list->head = list->tail = NULL;
-  } else if (position == list->tail) {                             // remove tail (update list tail)
+  } else if (position == list->tail) {                                            // remove tail (update list tail)
     list->tail = list->tail->prev;
     list->tail->next = NULL;
-  } else if (position == list->head) {                             // remove head (update list head)
+  } else if (position == list->head) {                                     // remove head (update list head)
     list->head = list->head->next;
     list->head->prev = NULL;
   } else {

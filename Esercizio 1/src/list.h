@@ -108,6 +108,12 @@ void *iterator_get_element(Iterator *);
 void iterator_dispose(Iterator *);
 
 /*
+** Rewind the position of the iterator to the beginning of the list
+** @param Iterator *: The pointer of the iterator to rewind. Cannot be NULL or invalid.
+*/
+void iterator_rewind(Iterator *);
+
+/*
 ** Prints the list passed as parameter.
 ** The user should define a function called print_element which prints a single element.
 ** @param Iterator *: The pointer of the list to be printed. Cannot be NULL or invalid.
@@ -115,5 +121,6 @@ void iterator_dispose(Iterator *);
 ** This function should be implemented in order to print a single element of the list.
 */
 void list_print(List *, void (print_element)(void *));
+
 
 #endif
