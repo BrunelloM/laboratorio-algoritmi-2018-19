@@ -18,7 +18,12 @@ int compare_string(void *a, void *b) {
 
 void print_string(void *element) {
   printf("%s", (char *) element);
-}
+}#!/bin/sh
+mkdir -p ./bin ./out
+make clean || true;
+make all || exit;
+echo "\n\n\e[1mFiles has been compiled successfully. \n\e[0mMove to \e[1m\e[92m./bin\e[39m\e[0m to execute them"
+
 
 void free_memory(List *to_free) {
   Iterator *iterator = list_get_iterator(to_free);
