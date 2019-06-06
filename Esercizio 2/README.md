@@ -12,9 +12,9 @@
 
 ## Esecuzione:
 Durante il processo di compilazione verranno creati 3 files eseguibili:
-. `edit_distance_main` e' il programma principale che utilizza le funzioni `edit_distance` e `edit_distance_dyn`. Richiede come parametri 2 stringhe che verranno confrontate con le funzioni sopracitate.
-. `edit_distance_tests` e' la suite di unit tests.
-. `dictionary_words` e' il programma che stampa per ogni parola del file `correctme.txt` tutte le parole con edit distance minimo da `dictionary.txt`. Richiede come parametri il filepath di `correctme` e quello di `dictionary`.
+* `edit_distance_main` e' il programma principale che utilizza le funzioni `edit_distance` e `edit_distance_dyn`. Richiede come parametri 2 stringhe che verranno confrontate con le funzioni sopracitate.
+* `edit_distance_tests` e' la suite di unit tests.
+* `dictionary_words` e' il programma che stampa per ogni parola del file `correctme.txt` tutte le parole con edit distance minimo da `dictionary.txt`. Richiede come parametri il filepath di `correctme` e quello di `dictionary`.
 
 
 Per lanciare l'esecuzione degli eseguibili e' necessario seguire i seguenti passaggi:
