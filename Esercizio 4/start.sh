@@ -1,7 +1,6 @@
 #!/bin/sh
 rm -rf ./out/*;
-mkdir ./out/graph  ./out/unionfindset ./out/kruskalAlgorithm ./out/kruskalAlgorithmUsage
+mkdir ./out/;
 cd src;
-javac -d ../out/ ./kruskalAlgorithmUsage/*.java || exit
-cd ../out/;
-java kruskalAlgorithmUsage/KruskalAlgorithmUsage $1;
+javac -d ../out/ ./kruskalAlgorithmUsage/*.java || exit;
+javac -d ../out/ -cp ".:/graph.*:/usr/share/java/junit4.jar:" ./test/*.java || exit;
