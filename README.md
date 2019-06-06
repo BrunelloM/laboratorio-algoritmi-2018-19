@@ -8,5 +8,5 @@ Gli esercizi 3 e 4, invece, avranno al loro interno un file script chiamato `sta
 Per questa ragione e' necessario inserire come parametro dello script il percorso del dataset su cui dovra' lavorare il programma.  
 
 ## Componenti
-* **Matteo Brunello**, Matr. 858867
-* **Lorenzo Caresio**, Matr. ######
+* **Matteo Brunello**, @st170565, Matr. 858867
+* **Lorenzo Caresio**, @st169823, Matr. ######
