@@ -4,7 +4,7 @@ i=0
 # Print - till the end of line
 while [ $i -lt $cols ]; do echo -n "-"; i=`expr $i + 1`; done; echo
 # Clean older files and compile, exit if there is an error
-mkdir -p ./bin ./out
+mkdir -p ./bin ./obj
 make clean || true;
 make all || exit;
 # Print - till the end of line
