@@ -1,5 +1,26 @@
 # Relazione
-## Performance e analisi algoritmica
+## Compilazione ed esecuzione
+### Compilazione
+1. Posizionarsi tramite terminale all'interno della directory corrente (Esercizio 4)
+2. Dare i permessi necessari all'esecuzione dello script `build.sh` tramite il comando `chmod +777 ./build.sh`
+3. Eseguire `./build.sh`
+
+Una volta eseguito lo script i file necessari all'esecuzione dell'esercizio saranno disponibili nella cartella `out` (saranno anche resi disponibili gli eseguibili dei test).
+
+### Esecuzione
+
+Come anticipato per l'esecuzione dei file sarà necessario posizionarsi all'interno della cartella `out`. Per l'esecuzione dell'esercizio si dovrà quindi indicare la posizione relativa (alla cartella contenente l'eseguibile) del dataset su cui si vorrà calcolare il MST tramite l'Argoritmo di Kruskal. Segue una possibile formulazione del comando:
+
+   ```
+   java kruskalAlgorithmUsage.KruskalAlgorithmUsage ../Resources/italian_dist_graph.csv
+   ```
+
+Mentre per l'esecuzione dei test sarà necessario indicare il path del file `junit4.jar` e di `hamcrest-core-1.3.jar`. Segue una possibile formulazione del comando:
+```
+java -cp ".:/usr/share/java/junit4.jar:/usr/share/java/hamcrest-core-1.3.jar:" test.GraphTestingRunner
+```
+
+## Analisi algoritmica e performance
 ### Labeled Graph
 
 La classe LabeledGraph rappresenta un grafo ottimizzato per dati sparsi con archi o spigoli etichettati. La distinzione tra archi e spigoli è necessaria sicché il grafo può essere orientato o meno (la differenza, come indicato nell'assegnazione del progetto, a livello implementativo è minima). La relazioni tra i vertici sono memorizzate in liste di adiacenza, implementate tramite l'utilizzo di HashMaps. L'utilizzo di queste particolari strutture dati permette una complessità temporale ammortizzabile ad $`\mathcal{O}(1)`$ (con $`\mathcal{O}(\log{}n)`$ nel caso temporalmente peggiore) per l'accesso in scrittura e lettura. Segue l'analisi temporale caso per caso dei metodi richiesti:
