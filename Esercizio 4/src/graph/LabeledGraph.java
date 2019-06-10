@@ -20,7 +20,7 @@ import java.util.HashMap;
  * removeEdge: Cancellazione di un arco – O(1) quando il grafo è veramente sparso
  * getVerticesSize: Determinazione del numero di nodi – O(n)
  * getEdgesSize: Determinazione del numero di archi – O(n)
- * getSet: Recupero dei nodi del grafo – O(n)
+ * getVertices: Recupero dei nodi del grafo – O(n)
  * getEdges: Recupero degli archi del grafo – O(n)
  * getAdjacentVertices: Recupero nodi adiacenti di un dato nodo – O(n)
  * getLabelByVertices: Recupero etichetta associata a una coppia di nodi – O(1) quando il grafo è veramente sparso.
