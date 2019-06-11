@@ -2,7 +2,7 @@
 
 ## Struttura
 La struttura generale del progetto e' organizzata in cartelle, all'interno di ogni cartella sara' presente un file `README.md` contenente un breve "how to" per compilare i file eseguibili e farli eseguire.     
-Gli esercizi 1, 2 e 4 avranno all'interno delle loro directory dedicate un file script chiamato `build.sh` che si occupera' di creare le directory necessarie alla compilazione e di compilare gli eseguibili.   
+Gli esercizi avranno all'interno delle loro directory dedicate un file script chiamato `build.sh` che si occupera' di creare le directory necessarie alla compilazione e di compilare gli eseguibili.   
 La consegna degli esercizi originale e' stata spostata nel file [Assignment](Assignment.md).
 ## Componenti
 * **Brunello Matteo**, @st170565, Matr. 858867
