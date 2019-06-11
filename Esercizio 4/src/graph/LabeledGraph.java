@@ -264,6 +264,21 @@ public class LabeledGraph<T, U> {
   }
 
   /**
+   * Sums every edge weight in order to get the overall graph weight.
+   *
+   * @return the graph weight as a double value
+   */
+  public double getGraphWeight() {
+    double graphWeight = 0;
+
+    for (HashMap<Vertex<T>, LabeledEdge<T, U>> adjacentVerticesList : adjacencyList.values())
+      for (LabeledEdge<T, U> edge : adjacentVerticesList.values())
+        graphWeight = graphWeight + edge.getWeight();
+
+    return isDirected ? graphWeight : graphWeight / 2;
+  }
+
+  /**
    * Prints the graph to the command line.
    */
   public void printGraph() {
