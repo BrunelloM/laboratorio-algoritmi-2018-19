@@ -2,16 +2,13 @@ package kruskalAlgorithmUsage;
 
 
 import graph.LabeledGraph;
-import graph.Vertex;
 import kruskalAlgorithm.KruskalAlgorithm;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 /**
  * @author Brunello Matteo, Caresio Lorenzo

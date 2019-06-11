@@ -76,4 +76,4 @@ I performance test si sono basati sul file italian_dist_graph.csv messo a dispos
 
 | N° test | Media | Dev std |
 |:-------:|:-----:|:-------:|
-| 10      | 69859 |  2552   |
+| 10      | 311   |  29   |

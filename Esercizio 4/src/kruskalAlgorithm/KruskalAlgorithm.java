@@ -12,7 +12,7 @@ public class KruskalAlgorithm<T, U extends Double> {
 
 
   /**
-   * The algorithm has been developed according on the one expressed on the course slieds with the following metacode:
+   * The algorithm has been developed according on the one available on the course slides with the following metacode:
    * <p>
    * MST_Kruskal(G)
    *   A ← ∅
@@ -24,7 +24,7 @@ public class KruskalAlgorithm<T, U extends Double> {
    *       A ← A ∪ (u,v)
    *       Union(u,v)
    *
-   * @param graph the graph onto which the MST will be computer
+   * @param graph the graph onto which the MST will be computed
    * @return the MST corresponding to the given graph
    */
 
