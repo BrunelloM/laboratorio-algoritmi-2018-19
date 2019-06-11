@@ -91,16 +91,16 @@ I test sono stati effettuati su diversi laptop e computer desktop, con un range 
         <tr>
             <td rowspan=4>Laptop media/alta<br>potenza</td>
             <td>1</td>
-            <td>53.331547</td>
+            <td>41.593496</td>
         <tr>
             <td>2</td>
-            <td>53.331547</td>
+            <td>39.510722</td>
         <tr>
             <td>3</td>
-            <td>53.331547</td>
+            <td>38.897615</td>
         <tr>
             <td>4</td>
-            <td>53.331547</td>
+            <td>43.563783</td>
         </tr>
     </tbody>
     
