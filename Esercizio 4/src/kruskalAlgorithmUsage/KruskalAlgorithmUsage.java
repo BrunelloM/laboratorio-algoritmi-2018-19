@@ -27,7 +27,7 @@ public class KruskalAlgorithmUsage {
     }
 
     LabeledGraph<String, Double> graph = new LabeledGraph<>();
-    HashMap<String, Boolean> insertedVerticesList = new HashMap<String, Boolean>(); // Used in order to know if a given vertex is already part of the graph
+    HashMap<String, Boolean> insertedVerticesList = new HashMap<>(); // Used in order to know if a given vertex is already part of the graph
 
     graph.setIsWeighted(true);
 
@@ -35,14 +35,9 @@ public class KruskalAlgorithmUsage {
     System.out.println("Loading file into the memory...");
     loadGraphFromFile(args[0], graph, insertedVerticesList);
 
-    // Based on the Kruskal Algorithm definition, the initial vertex has to be randomly picked
-    Random random = new Random();
-    ArrayList<Vertex<String>> vertices = graph.getVertices();
-    Vertex<String> startVertex = vertices.get(random.nextInt(vertices.size()));
-
     // Execute the algorithm
-    KruskalAlgorithm<String, Double> kruskalAlgorithm = new KruskalAlgorithm<String, Double>();
-    System.out.println("\nExecuting Kruskal's algorithm (this process may take a long time in which the program seems unresponsive)\n");
+    KruskalAlgorithm<String, Double> kruskalAlgorithm = new KruskalAlgorithm<>();
+    System.out.println("Executing Kruskal's algorithm...\n");
     long timestampBeforeExecution = System.currentTimeMillis();
     LabeledGraph<String, Double> graphMST = kruskalAlgorithm.execute(graph);
     long timestampAfterExecution = System.currentTimeMillis();
