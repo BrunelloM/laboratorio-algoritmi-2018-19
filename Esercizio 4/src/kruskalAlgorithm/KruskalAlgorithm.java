@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
-public class KruskalAlgorithm<T, U extends Comparable> {
+public class KruskalAlgorithm<T, U extends Comparable<U>> {
 
 
   /**

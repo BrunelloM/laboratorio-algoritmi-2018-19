@@ -40,8 +40,8 @@ public class KruskalAlgorithmUsage {
     ArrayList<Vertex<String>> vertices = graph.getVertices();
     Vertex<String> startVertex = vertices.get(random.nextInt(vertices.size()));
 
-    KruskalAlgorithm kruskalAlgorithm = new KruskalAlgorithm();
     // Execute the algorithm
+    KruskalAlgorithm<String, Double> kruskalAlgorithm = new KruskalAlgorithm<String, Double>();
     System.out.println("\nExecuting Kruskal's algorithm (this process may take a long time in which the program seems unresponsive)\n");
     long timestampBeforeExecution = System.currentTimeMillis();
     LabeledGraph<String, Double> graphMST = kruskalAlgorithm.execute(graph, startVertex);
