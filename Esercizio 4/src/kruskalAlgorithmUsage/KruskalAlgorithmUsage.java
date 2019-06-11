@@ -14,7 +14,7 @@ import java.util.HashMap;
  * @author Brunello Matteo, Caresio Lorenzo
  */
 public class KruskalAlgorithmUsage {
-  
+
   public static void main(String[] args) {
 
     if (args.length < 1) {
@@ -76,9 +76,11 @@ public class KruskalAlgorithmUsage {
     } catch (FileNotFoundException e) {
       System.err.println("The dataset file doesn't exists");
       e.printStackTrace();
+      System.exit(-1);
     } catch (IOException e) {
       System.err.println("An error has occurred while trying to parse the dataset");
       e.printStackTrace();
+      System.exit(-1);
     }
     System.out.println(rowsCount + " file rows has been successfully loaded into the memory.");
   }

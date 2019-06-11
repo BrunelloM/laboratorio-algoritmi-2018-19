@@ -11,7 +11,7 @@ rm -rf ./out/* || true;
 mkdir -p ./out/;
 cd src;
 javac -d ../out/ ./kruskalAlgorithmUsage/*.java -Xlint || exit;
-#javac -d ../out/ -cp ".:/graph.*:/usr/share/java/junit4.jar:/usr/share/java/hamcrest-core-1.3.jar:" ./test/*.java || exit;
+javac -d ../out/ -cp ".:/graph.*:/usr/share/java/junit4.jar:/usr/share/java/hamcrest-core-1.3.jar:" ./test/*.java || exit;
 
 # Print - till the end of line
 echo "${bell}"
