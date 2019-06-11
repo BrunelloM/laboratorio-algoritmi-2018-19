@@ -20,7 +20,10 @@ Durante il processo di compilazione verranno creati 3 files eseguibili:
 Per lanciare l'esecuzione degli eseguibili e' necessario seguire i seguenti passaggi:
 1. Posizionarsi tramite terminale all'interno della directory corrente (Esercizio 2), successivamente spostarsi all'interno della directory `bin`.
 2. Eseguire il comando `./NOME_ESEGUIBILE` dove NOME_ESEGUIBILE e' il nome di uno dei 3 files eseguibili.
-
+Segue una possibile formulazione del comando per l'esecuzione:
+```
+./dictionary_words ../../datasets/correctme.txt ../../datasets/dictionary.txt
+```
 
 # Relazione e analisi algoritmica
 
