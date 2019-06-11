@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
-public class KruskalAlgorithm<T, U extends Comparable<U>> {
+public class KruskalAlgorithm<T, U extends Double> {
 
 
   /**
@@ -30,7 +30,7 @@ public class KruskalAlgorithm<T, U extends Comparable<U>> {
    * @return the MST corresponding to the given graph
    */
 
-  public LabeledGraph<T, U> execute(LabeledGraph<T, U> graph, Vertex<T> startVertex) {
+  public LabeledGraph<T, Double> execute(LabeledGraph<T, Double> graph, Vertex<T> startVertex) {
 
     if (!graph.isWeighted())
       throw new IllegalStateException("The Kruskal Algorithm is meant to be used on weighted data structures");
@@ -38,19 +38,19 @@ public class KruskalAlgorithm<T, U extends Comparable<U>> {
     HashMap<T, T> verticesList = new HashMap<T, T>();
     LabeledEdgeComparator labeledEdgeComparator = new LabeledEdgeComparator();
 
-    UnionFind unionFind = new UnionFind();
+    UnionFind<Vertex<T>> unionFind = new UnionFind<Vertex<T>>();
 
-    LabeledGraph<T, U> minimumSpanningTree = new LabeledGraph<>(); // 1. A ← ∅
+    LabeledGraph<T, Double> minimumSpanningTree = new LabeledGraph<>(); // 1. A ← ∅
     minimumSpanningTree.setIsWeighted(true);
 
-    ArrayList<LabeledEdge<T, U>> edgesList = new ArrayList<>(graph.getEdges());
+    ArrayList<LabeledEdge<T, Double>> edgesList = new ArrayList<>(graph.getEdges());
     edgesList.sort(labeledEdgeComparator); // 4. ordina gli archi in ordine non decrescente di peso
 
     for (Vertex<T> vertex : graph.getVertices()) { // 2. for ∀v ∈ V do
 
       unionFind.makeSet(vertex); // 3. Make_set(v)
 
-      for (LabeledEdge<T, U> edge : edgesList) {
+      for (LabeledEdge<T, Double> edge : edgesList) {
         if (edge.getYVertex().equals(vertex)) { // for ∀(u,v) ∈ E nell’ordine do
 
           if (unionFind.find(edge.getXVertex()) != null &&
@@ -72,9 +72,9 @@ public class KruskalAlgorithm<T, U extends Comparable<U>> {
   }
 
 
-  public class LabeledEdgeComparator implements Comparator<LabeledEdge<T, U>> {
+  public class LabeledEdgeComparator implements Comparator<LabeledEdge<T, Double>> {
     @Override
-    public int compare(LabeledEdge<T, U> aEdge, LabeledEdge<T, U> bEdge) {
+    public int compare(LabeledEdge<T, Double> aEdge, LabeledEdge<T, Double> bEdge) {
       return aEdge.getLabel().compareTo(bEdge.getLabel());
     }
   }

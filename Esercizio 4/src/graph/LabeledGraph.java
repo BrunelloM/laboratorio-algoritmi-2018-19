@@ -85,7 +85,7 @@ public class LabeledGraph<T, U> {
 
     if (vertices.get(vertexLabel) == null) {
 
-      Vertex<T> newVertex = new Vertex<T>(vertexLabel);
+      Vertex<T> newVertex = new Vertex<>(vertexLabel);
       vertices.put(vertexLabel, newVertex);
 
       HashMap<Vertex<T>, LabeledEdge<T, U>> adjacentToThisVertex = new HashMap<>();

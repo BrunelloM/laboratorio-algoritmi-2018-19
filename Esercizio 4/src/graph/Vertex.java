@@ -48,12 +48,20 @@ public class Vertex<T> {
       return true;
     }
 
-    if (!(obj instanceof Vertex<?>)) {
+    if (obj instanceof Vertex<?>) {
+      // This SuppressWarnings is justified since we are considerably sure that the object will be of type Vertex<T>,
+      // but a warning is still notified due to Java generic typing specification.
+      @SuppressWarnings("unchecked")
+      Vertex<T> vertex = (Vertex<T>) obj;
+      return vertexLabel.equals(vertex.vertexLabel);
+    } else {
       return false;
     }
+  }
 
-    Vertex<T> vertex = (Vertex<T>) obj;
-    return vertexLabel.equals(vertex.vertexLabel);
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(vertexLabel);
   }
 
 
