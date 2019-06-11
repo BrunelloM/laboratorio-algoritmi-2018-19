@@ -23,6 +23,7 @@ public class KruskalAlgorithmUsage {
 
     if (args.length < 1) {
       System.out.println("Invalid list of arguments\n");
+      System.exit(0);
     } else {
 
       LabeledGraph<String, Double> graph = new LabeledGraph<>();
@@ -31,38 +32,10 @@ public class KruskalAlgorithmUsage {
       graph.setIsWeighted(true);
 
       // Vertices and corresponding edges are parsed from the csv file
-      try {
-        FileReader fr = new FileReader(args[0]);
-        BufferedReader br = new BufferedReader(fr);
-        String currentFileLine;
-
-        while ((currentFileLine = br.readLine()) != null) {
-          String[] lineContents = currentFileLine.split(","); // In CSV values are separated by commas
-
-          // A vertex has to be inserted in the graph if it isn't part of it yet
-          if (insertedVerticesList.get(lineContents[0]) == null) {
-            graph.addVertex(lineContents[0]);
-            insertedVerticesList.put(lineContents[0], Boolean.TRUE);
-          }
-
-          // A vertex has to be inserted in the graph if it isn't part of it yet
-          if (insertedVerticesList.get(lineContents[1]) == null) {
-            graph.addVertex(lineContents[1]);
-            insertedVerticesList.put(lineContents[1], Boolean.TRUE);
-          }
-
-          graph.addVertex(lineContents[1]);
-          graph.addEdge(Double.parseDouble(lineContents[2]), lineContents[0], lineContents[1]);
-        }
-      } catch (FileNotFoundException e) {
-        System.err.println("The dataset file doesn't exists");
-        e.printStackTrace();
-      } catch (IOException e) {
-        System.err.println("An error has occurred while trying to parse the dataset");
-        e.printStackTrace();
-      }
+      loadFile(args[0], graph, insertedVerticesList);
 
       // Basing on the Kruskal Algorithm definition, the initial vertex has to be randomly picked
+      System.out.println("calculating MST using Kruskal's algorithm...");
       Random random = new Random();
       ArrayList<Vertex<String>> vertices = graph.getVertices();
       Vertex<String> startVertex = vertices.get(random.nextInt(vertices.size()));
@@ -80,4 +53,45 @@ public class KruskalAlgorithmUsage {
 
     }
   }
+
+  private static void loadFile(String filePath, LabeledGraph<String, Double> graph, HashMap<String, Boolean> insertedVerticesList) {
+    int rowsCount = 0;
+    try {
+      FileReader fr = new FileReader(filePath);
+      BufferedReader br = new BufferedReader(fr);
+      String currentFileLine;
+      System.out.println("Loading file into the memory...");
+
+
+      while ((currentFileLine = br.readLine()) != null) {
+        String[] lineContents = currentFileLine.split(","); // In CSV values are separated by commas
+
+        // A vertex has to be inserted in the graph if it isn't part of it yet
+        if (insertedVerticesList.get(lineContents[0]) == null) {
+          graph.addVertex(lineContents[0]);
+          insertedVerticesList.put(lineContents[0], Boolean.TRUE);
+        }
+
+        // A vertex has to be inserted in the graph if it isn't part of it yet
+        if (insertedVerticesList.get(lineContents[1]) == null) {
+          graph.addVertex(lineContents[1]);
+          insertedVerticesList.put(lineContents[1], Boolean.TRUE);
+        }
+
+        graph.addVertex(lineContents[1]);
+        graph.addEdge(Double.parseDouble(lineContents[2]), lineContents[0], lineContents[1]);
+        rowsCount++;
+      }
+    } catch (FileNotFoundException e) {
+      System.err.println("The dataset file doesn't exists");
+      e.printStackTrace();
+    } catch (IOException e) {
+      System.err.println("An error has occurred while trying to parse the dataset");
+      e.printStackTrace();
+    }
+
+    System.out.println(rowsCount + " rows has been successfully loaded into the memory.");
+  }
+
+
 }
