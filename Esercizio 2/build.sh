@@ -1,4 +1,8 @@
 #!/bin/sh
+green=`tput setaf 2`
+reset=`tput sgr0`
+bold=`tput bold`
+bell=`tput bel`
 cols=`tput cols` # Get the current terminal width
 i=0
 # Print - till the end of line
@@ -11,4 +15,6 @@ make all || exit;
 i=0
 while [ $i -lt $cols ]; do echo -n "-"; i=`expr $i + 1`; done; echo
 # Print a system message
-echo "\n\n\e[1mFiles has been compiled successfully. \n\e[0mMove to \e[1m\e[92m./bin\e[39m\e[0m to execute them"
+echo "${bell}"
+echo "${bold}Files has been compiled successfully.${reset}"
+echo "Move to ${green}./bin${reset} to execute them"
