@@ -122,7 +122,7 @@ Si rammenta, però, che il focus del laboratorio è l'implementazione di struttu
 Si consideri il tipo di dato astratto Lista, definito nei termini delle seguenti operazioni:
 
 - Verifica se la lista è vuota in O(1)
-- Inserimento in coda alla lista in O(1) 
+- Inserimento in coda alla lista in O(1) (tempo ammortizzato)
 - Inserimento di un elemento nella posizione i-esima della lista in O(n)
 - Cancellazione dell'elemento in coda alla lista in O(1)
 - Cancellazione dell'elemento in posizione i-esima nella lista in O(n)
@@ -255,15 +255,17 @@ complessità richiesta; n può indicare il numero di nodi o il numero di archi, 
 - Aggiunta di un arco – O(1)
 - Verifica se il grafo è diretto – O(1)
 - Verifica se il grafo contiene un dato nodo – O(1)
-- Verifica se il grafo contiene un dato arco – O(1) quando il grafo è veramente sparso
+- Verifica se il grafo contiene un dato arco – O(1)  (*)
 - Cancellazione di un nodo – O(n)
-- Cancellazione di un arco – O(1) quando il grafo è veramente sparso
-- Determinazione del numero di nodi – O(n)
+- Cancellazione di un arco – O(1)  (*)
+- Determinazione del numero di nodi – O(1)
 - Determinazione del numero di archi – O(n)
 - Recupero dei nodi del grafo – O(n)
 - Recupero degli archi del grafo – O(n)
-- Recupero nodi adiacenti di un dato nodo – O(n)
-- Recupero etichetta associata a una coppia di nodi – O(1) quando il grafo è veramente sparso.
+- Recupero nodi adiacenti di un dato nodo – O(1)  (*)
+- Recupero etichetta associata a una coppia di nodi – O(1) (*)
+
+(*) quando il grafo è veramente sparso, assumendo che l'operazione venga effettuata su un nodo la cui lista di adiacenza ha una lunghezza in O(1).
 
 ### Unit Testing
 

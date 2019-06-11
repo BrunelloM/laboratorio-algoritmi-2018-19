@@ -7,7 +7,7 @@
 
 ## Compilazione (tramite utility make):
 1. Posizionarsi tramite terminale all'interno della directory corrente (Esercizio 1).
-2. Eseguire il comando `mkdir -p ./bin ./out`, il quale crea le cartelle necessarie alla compilazione solo in caso esse non siano gia' presenti.
+2. Eseguire il comando `mkdir -p ./bin ./obj`, il quale crea le cartelle necessarie alla compilazione solo in caso esse non siano gia' presenti.
 3. Lanciare il comando `make all`.
 
 ## Esecuzione:
