@@ -44,12 +44,12 @@ public class KruskalAlgorithmUsage {
     KruskalAlgorithm<String, Double> kruskalAlgorithm = new KruskalAlgorithm<String, Double>();
     System.out.println("\nExecuting Kruskal's algorithm (this process may take a long time in which the program seems unresponsive)\n");
     long timestampBeforeExecution = System.currentTimeMillis();
-    LabeledGraph<String, Double> graphMST = kruskalAlgorithm.execute(graph, startVertex);
+    LabeledGraph<String, Double> graphMST = kruskalAlgorithm.execute(graph);
     long timestampAfterExecution = System.currentTimeMillis();
 
-    System.out.println("Original Graph: \n\tNodes: " + graph.getVertices().size() + "\n\tEdges: " + graph.getEdgesSize() + "\n\tWeight: " + String.format("%.2f", graph.getGraphWeight()));
+    System.out.println("Original Graph: \n\tNodes: " + graph.getVertices().size() + "\n\tEdges: " + graph.getEdgesSize() + "\n\tWeight: " + String.format("%.2f", graph.getGraphWeight() / 1000) + "km");
 
-    System.out.println("MST Graph: \n\tNodes: " + graphMST.getVertices().size() + "\n\tEdges: " + graphMST.getEdgesSize() + "\n\tWeight: " + String.format("%.2f", graphMST.getGraphWeight()));
+    System.out.println("MST Graph: \n\tNodes: " + graphMST.getVertices().size() + "\n\tEdges: " + graphMST.getEdgesSize() + "\n\tWeight: " + String.format("%.2f", graphMST.getGraphWeight() / 1000) + "km");
 
     System.out.println("\n\nExecution ended in " + (timestampAfterExecution - timestampBeforeExecution) + " milliseconds");
 
